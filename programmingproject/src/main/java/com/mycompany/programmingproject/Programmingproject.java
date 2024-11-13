@@ -5,30 +5,31 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author salacomputocentro.ba
- */
 public class Programmingproject {
 
     public static void main(String[] args) {
         int op = 0;
         while(op!=4){
-            op = menu();
+            op = menuiniciosesion();
             switch(op){
-                case 1:
+                case 1: //Iniciar sesión
                     break;
-                case 2:
+                case 2: //Registrar usuario
                     break;
-                case 3:
+                case 3: //Salir
                     break;
-                case 4:
-                    break;
-                
             }
         }
     }
-    
+    static int menuiniciosesion(){
+        return Utilidades.registrarinteger("""
+            Seleccione una opción
+            1. Iniciar sesión
+            2. Registrar usuario
+            3. Salir
+        """);
+    }
+
     static int menu(){
         return Utilidades.registrarinteger("""
                                    Selecciona una opción
