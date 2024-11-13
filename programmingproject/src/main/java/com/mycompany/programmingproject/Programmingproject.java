@@ -13,6 +13,7 @@ public class Programmingproject {
             op = menuiniciosesion();
             switch(op){
                 case 1: //Iniciar sesión
+                System.out.println("Iniciar sesión (mensaje)");
                     break;
                 case 2: //Registrar usuario
                     break;
@@ -21,6 +22,7 @@ public class Programmingproject {
             }
         }
     }
+
     static int menuiniciosesion(){
         return Utilidades.registrarinteger("""
             Seleccione una opción
