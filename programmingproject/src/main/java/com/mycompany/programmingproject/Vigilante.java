@@ -1,5 +1,4 @@
 package com.mycompany.programmingproject;
-
 import java.util.ArrayList;
 
 public class Vigilante extends Usuario {
