@@ -6,11 +6,20 @@ import java.util.ArrayList;
 
 public class archivoHandler {
     private String fileName;
+    private static archivoHandler instancia;
 
-    public archivoHandler(String fileName) {
+    private archivoHandler() {
         this.fileName = fileName;
     }
 
+    // Método estático para obtener la instancia única de la clase
+    public static archivoHandler getInstancia(String fileName) {
+        if (instancia == null) {
+            instancia = new archivoHandler(fileName);
+        }
+        return instancia;
+    }
+    
     // Método para leer el archivo y devolver su contenido como una lista de líneas
     public List<String> leerArchivo() {
         List<String> lineas = new ArrayList<>();
