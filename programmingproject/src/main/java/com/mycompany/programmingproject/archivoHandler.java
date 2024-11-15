@@ -8,7 +8,7 @@ public class archivoHandler {
     private String fileName;
     private static archivoHandler instancia;
 
-    private archivoHandler() {
+    private archivoHandler(String fileName) {
         this.fileName = fileName;
     }
 
