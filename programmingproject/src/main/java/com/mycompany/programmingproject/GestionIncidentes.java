@@ -1,24 +1,24 @@
 package com.mycompany.programmingproject;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class GestionIncidentes {
-    private ArrayList<Incidente> incidentes;
+    private List<Incidente> incidentes;
     private static GestionIncidentes instancia;
 
-    private GestionIncidentes(ArrayList<Incidente> incidentes) {
+    private GestionIncidentes(List<Incidente> incidentes) {
         this.incidentes = incidentes;
     }
 
-    public ArrayList<Incidente> getIncidentes() {
+    public List<Incidente> getIncidentes() {
         return incidentes;
     }
 
-    public void setIncidentes(ArrayList<Incidente> incidentes) {
+    public void setIncidentes(List<Incidente> incidentes) {
         this.incidentes = incidentes;
     }
 
-    public static GestionIncidentes ObtenerInstancia(ArrayList<Incidente> incidentes){
+    public static GestionIncidentes ObtenerInstancia(List<Incidente> incidentes){
         if(instancia==null){
             instancia = new GestionIncidentes(incidentes);
         }
