@@ -3,7 +3,7 @@ package com.mycompany.programmingproject;
 import java.util.ArrayList;
 
 public class Propietario extends Usuario{
-    private String apartamento;
+    private String numapartamento;
     private boolean alDia;
     private ArrayList<Vehiculo> vehiculosRegistrados;
 
@@ -13,16 +13,16 @@ public class Propietario extends Usuario{
 
     public Propietario(int id, String nombre, String email, String contraseña, String tipo,String apartamento) {
         super(id, nombre, email, contraseña, tipo);
-        this.apartamento = apartamento;
+        this.numapartamento = apartamento;
         this.alDia = true;
         this.vehiculosRegistrados = new ArrayList<>();
     }
-    public String getApartamento() {
-        return apartamento;
+    public String getNumapartamento() {
+        return numapartamento;
     }
 
-    public void setApartamento(String apartamento) {
-        this.apartamento = apartamento;
+    public void setNumapartamento(String apartamento) {
+        this.numapartamento = apartamento;
     }
 
     public boolean isAlDia() {
