@@ -58,13 +58,9 @@ public class Propietario extends Usuario{
     }
     public void reporteIncidente(){
         GestionIncidentes incidentes = GestionIncidentes.ObtenerInstancia(new ArrayList<>());
-        Scanner input = new Scanner(System.in);
-        System.out.println("Digite la descripción del incidente: ");
-        String descripcion = input.nextLine();
-        System.out.println("Digite la ubicación del incidente: ");
-        String ubicacion = input.nextLine();
+        String descripcion = Utilidades.registrarstring("Digite la descripción del incidente: ");
+        String ubicacion = Utilidades.registrarstring("Digite la ubicación del incidente: ");
         incidentes.reportarIncidente(descripcion, this, ubicacion);
-        input.close();
         incidentes.MostrarIncidente();
     }
 }
