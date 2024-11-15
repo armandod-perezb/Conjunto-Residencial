@@ -1,5 +1,7 @@
 package com.mycompany.programmingproject;
 
+import java.util.ArrayList;
+
 public class Vigilante extends Usuario {
     private String turno;
 
@@ -30,5 +32,13 @@ public class Vigilante extends Usuario {
                 ", tipo='" + getTipo() + '\'' +
                 ", turno='" + turno + '\'' +
                 '}';
+    }
+
+    public void reporteIncidente(){
+        GestionIncidentes incidentes = GestionIncidentes.ObtenerInstancia(new ArrayList<>());
+        String descripcion = Utilidades.registrarstring("Digite la descripción del incidente: ");
+        String ubicacion = Utilidades.registrarstring("Digite la ubicación del incidente: ");
+        incidentes.reportarIncidente(descripcion, this, ubicacion);
+        incidentes.MostrarIncidente();
     }
 }
