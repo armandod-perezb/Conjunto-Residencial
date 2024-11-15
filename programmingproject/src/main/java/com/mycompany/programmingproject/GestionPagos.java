@@ -2,25 +2,24 @@ package com.mycompany.programmingproject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GestionPagos {
-    private ArrayList<Pago> pagos;
+    private List<Pago> pagos;
     private static GestionPagos instancia;
 
-    private GestionPagos(ArrayList<Pago> pagos) {
+    private GestionPagos(List<Pago> pagos) {
         this.pagos = pagos;
     }
 
-    public ArrayList<Pago> getPagos() {
+    public List<Pago> getPagos() {
         return pagos;
     }
 
-    public void setPagos(ArrayList<Pago> pagos) {
+    public void setPagos(List<Pago> pagos) {
         this.pagos = pagos;
     }
 
-    public static GestionPagos ObtenerInstancia(ArrayList<Pago> pagos){
+    public static GestionPagos ObtenerInstancia(List<Pago> pagos){
         if(instancia==null){
             instancia = new GestionPagos(pagos);
         }
@@ -33,8 +32,12 @@ public class GestionPagos {
     }
 
     public List<Pago> obtenerPagosPropietario(Propietario propietario) {
-        return pagos.stream()
-                .filter(p -> p.getPropietario().equals(propietario))
-                .collect(Collectors.toList());
+        List<Pago> pagosPropietario = new ArrayList<>();
+        for (Pago pago : pagos) {
+            if (pago.getPropietario().equals(propietario)) {
+                pagosPropietario.add(pago);
+            }
+        }
+        return pagosPropietario;
     }
 }
