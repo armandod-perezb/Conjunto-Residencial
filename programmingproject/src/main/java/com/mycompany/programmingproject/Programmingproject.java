@@ -33,9 +33,9 @@ public class Programmingproject {
                     break;
                     case 2:
                     tipousuario="Vigilante";
+                    break;
                     case 3:
-                    tipousuario = "Administrador";
-                    case 4:
+                    tipousuario="Administrador";
                     break;
                     default:
                     System.out.println("Dato inválido");

@@ -68,4 +68,44 @@ public class archivoHandler {
             System.err.println("Número de línea fuera del rango");
         }
     }
+
+    // Método para cargar los datos de un archivo CSV de usuarios y guardarlos en listas según el tipo de usuario
+    public void cargarUsuariosDesdeCSV(String archivoCSV, List<Administrador> administradores, List<Propietario> propietarios, List<Vigilante> vigilantes) {
+        String linea;
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoCSV))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 5) {
+                    int id = Integer.parseInt(datos[0]);
+                    String nombre = datos[1];
+                    String email = datos[2];
+                    String contraseña = datos[3];
+                    String tipo = datos[4];
+
+                    switch (tipo.toLowerCase()) {
+                        case "administrador":
+                            administradores.add(new Administrador(id, nombre, email, contraseña, tipo));
+                            break;
+                        case "propietario":
+                            if (datos.length == 6) {
+                                String apartamento = datos[5];
+                                propietarios.add(new Propietario(id, nombre, email, contraseña, tipo, apartamento));
+                            }
+                            break;
+                        case "vigilante":
+                            if (datos.length == 6) {
+                                String turno = datos[5];
+                                vigilantes.add(new Vigilante(id, nombre, email, contraseña, tipo, turno));
+                            }
+                            break;
+                        default:
+                            System.err.println("Tipo de usuario desconocido: " + tipo);
+                            break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo CSV: " + e.getMessage());
+        }
+    }
 }
