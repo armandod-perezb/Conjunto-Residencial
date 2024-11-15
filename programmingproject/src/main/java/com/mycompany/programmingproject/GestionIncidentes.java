@@ -1,6 +1,7 @@
 package com.mycompany.programmingproject;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GestionIncidentes {
     private ArrayList<Incidente> incidentes;

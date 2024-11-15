@@ -59,8 +59,5 @@ public class RegistroAcceso {
     public void setRegistradoPor(Usuario registradoPor) {
         this.registradoPor = registradoPor;
     }
-    
-    
-    
-    
+
 }
