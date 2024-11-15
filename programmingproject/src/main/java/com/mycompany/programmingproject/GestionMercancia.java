@@ -6,8 +6,9 @@ import java.util.List;
 
 public class GestionMercancia {
     private ArrayList<Mercancia> mercancias;
+    private static GestionMercancia instancia;
 
-    public GestionMercancia(ArrayList<Mercancia> mercancias) {
+    private GestionMercancia(ArrayList<Mercancia> mercancias) {
         this.mercancias = mercancias;
     }
 
@@ -19,6 +20,12 @@ public class GestionMercancia {
         this.mercancias = mercancias;
     }
     
+    public static GestionMercancia ObtenerInstancia(ArrayList<Mercancia> mercancias){
+        if(instancia == null){
+            instancia = new GestionMercancia(mercancias);
+        }
+        return instancia;
+    }
     public Mercancia registrarLlegada(String descripcion, Propietario destinatario) {
         Mercancia mercancia = new Mercancia(mercancias.size()+1, descripcion, destinatario);
         mercancias.add(mercancia);

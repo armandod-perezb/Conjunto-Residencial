@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class GestionIncidentes {
     private ArrayList<Incidente> incidentes;
+    private static GestionIncidentes instancia;
 
-    public GestionIncidentes(ArrayList<Incidente> incidentes) {
+    private GestionIncidentes(ArrayList<Incidente> incidentes) {
         this.incidentes = incidentes;
     }
 
@@ -15,6 +16,13 @@ public class GestionIncidentes {
 
     public void setIncidentes(ArrayList<Incidente> incidentes) {
         this.incidentes = incidentes;
+    }
+
+    public static GestionIncidentes ObtenerInstancia(ArrayList<Incidente> incidentes){
+        if(instancia==null){
+            instancia = new GestionIncidentes(incidentes);
+        }
+        return instancia;
     }
     
     public Incidente reportarIncidente(String descripcion, Usuario reportadoPor, String ubicacion) {
