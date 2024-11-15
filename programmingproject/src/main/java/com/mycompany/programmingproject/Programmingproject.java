@@ -19,14 +19,34 @@ public class Programmingproject {
                 String nombre = Utilidades.registrarstring("Digite nombre de usuario: ");
                 String email = Utilidades.registrarstring("Digite email");
                 String contraseña = Utilidades.registrarstring("Digite Contraseña");
-                String tipo = Utilidades.registrarstring("Digite tipo de usuario");
+                int opciontipo= Utilidades.registrarinteger("""
+                    Digite tipo de usuario
+                    1. Propietario
+                    2. Vigilante
+                    3. Administrador
+                    4. Salir""");
+                String tipousuario;
+                switch(opciontipo){
+                    case 1:
+                    tipousuario="Propietario";
+                    break;
+                    case 2:
+                    tipousuario="Vigilante";
+                    case 3:
+                    tipousuario = "Administrador";
+                    case 4:
+                    break;
+                    default:
+                    System.out.println("Dato inválido");
+                    break;
+                }
                     break;
                 case 3: //Salir
                     break;
             }
         }
     }
-
+    //Menú de inicio de sesión
     static int menuiniciosesion(){
         return Utilidades.registrarinteger("""
             Seleccione una opción
@@ -35,17 +55,7 @@ public class Programmingproject {
             3. Salir
         """);
     }
-
-    static int menu(){
-        return Utilidades.registrarinteger("""
-                                   Selecciona una opción
-                                   1. Menú de administrador
-                                   2. Menú de propietario
-                                   3. Menú de vigilante
-                                   4. Salir
-                                           """);
-    }
-    
+    //Menú de administrador
     static int menuadministrador(){
         return Utilidades.registrarinteger("""
                                    Selecciona una opción
@@ -57,23 +67,24 @@ public class Programmingproject {
                                    4. Salir
                                            """);
     }
-    
+    //Menú de propietario
     static int menupropietario(){
         return Utilidades.registrarinteger("""
                                    Selecciona una opción
-                                   1. Menú de administrador
-                                   2. Menú de propietario
-                                   3. Menú de vigilante
-                                   4. Salir
+                                   1. Realizar pago
+                                   2. Reportar incidente
+                                   3. Autorizar vehículo
+                                   4. Visualizar mercancía 
+                                   5. Salir
                                            """);
     }
-    
+    //Menú de vigilante
     static int menuvigilante(){
         return Utilidades.registrarinteger("""
                                    Selecciona una opción
-                                   1. Gestión de pagos
-                                   2. Menú de propietario
-                                   3. Menú de vigilante
+                                   1. Registrar incidente
+                                   2. Registrar entrada de vehículo
+                                   3. Registrar llegada de  mercancía
                                    4. Salir
                                            """);
     }
