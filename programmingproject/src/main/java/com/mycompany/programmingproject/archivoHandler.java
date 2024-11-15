@@ -14,7 +14,7 @@ public class archivoHandler {
     // Método para leer el archivo y devolver su contenido como una lista de líneas
     public List<String> leerArchivo() {
         List<String> lineas = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.fileName))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 lineas.add(linea);
@@ -27,7 +27,7 @@ public class archivoHandler {
 
     // Método para agregar una sola línea al final del archivo sin sobrescribir el contenido
     public void agregarLinea(String linea) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) { // Modo de adición (append=true)
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.fileName, true))) { // Modo de adición (append=true)
             bw.write(linea);
             bw.newLine();
         } catch (IOException e) {
@@ -37,7 +37,7 @@ public class archivoHandler {
 
     // Método para escribir o sobrescribir el archivo con una lista de líneas
     public void escribirArchivo(List<String> lineas) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(this.fileName))) {
             for (String linea : lineas) {
                 bw.write(linea);
                 bw.newLine();
@@ -106,6 +106,21 @@ public class archivoHandler {
             }
         } catch (IOException e) {
             System.err.println("Error al leer el archivo CSV: " + e.getMessage());
+        }
+    }
+
+    // Método para registrar un nuevo usuario en el archivo CSV
+    public void registrarUsuarioEnCSV(int id, String nombre, String email, String contraseña, String tipo, String extra) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(id).append(",").append(nombre).append(",").append(email).append(",").append(contraseña).append(",").append(tipo);
+            if (extra != null && !extra.isEmpty()) {
+                sb.append(",").append(extra);
+            }
+            bw.write(sb.toString());
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al registrar el usuario en el archivo CSV: " + e.getMessage());
         }
     }
 }
