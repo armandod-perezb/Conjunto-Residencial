@@ -11,7 +11,6 @@ public class Propietario extends Usuario{
 
     }
 
-    
     public Propietario(int id, String nombre, String email, String contraseña, String tipo,String apartamento) {
         super(id, nombre, email, contraseña, tipo);
         this.apartamento = apartamento;

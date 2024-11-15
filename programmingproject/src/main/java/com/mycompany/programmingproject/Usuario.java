@@ -1,5 +1,7 @@
 package com.mycompany.programmingproject;
 
+import java.util.List;
+
 public class Usuario {
     private int id;
     private String nombre;
@@ -59,5 +61,12 @@ public class Usuario {
         this.tipo = tipo;
     }
     
-    
+    public int hallarIndex(List<Usuario> usuarios, int id){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).getId()==id){
+                return i;
+            }
+        }
+        return -1;
+    }
 }
