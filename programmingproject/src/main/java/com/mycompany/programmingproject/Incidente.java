@@ -1,7 +1,6 @@
 package com.mycompany.programmingproject;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Incidente {
     private int id;
@@ -10,7 +9,6 @@ public class Incidente {
     private Usuario reportadoPor;
     private String ubicacion;
     private String estado;
-    private ArrayList<String> comentarios;
 
     public Incidente(int id, String descripcion, Usuario reportadoPor, String ubicacion) {
         this.id = id;
@@ -19,7 +17,6 @@ public class Incidente {
         this.reportadoPor = reportadoPor;
         this.ubicacion = ubicacion;
         this.estado = "reportado";
-        this.comentarios = new ArrayList<>();
     }
 
     public int getId() {
@@ -69,14 +66,4 @@ public class Incidente {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
-    public ArrayList<String> getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(ArrayList<String> comentarios) {
-        this.comentarios = comentarios;
-    }
-    
-    
 }

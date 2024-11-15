@@ -1,6 +1,7 @@
 package com.mycompany.programmingproject;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Propietario extends Usuario{
     private String numapartamento;
@@ -41,5 +42,15 @@ public class Propietario extends Usuario{
         this.vehiculosRegistrados = vehiculosRegistrados;
     }
     
-    
+    public void reporteIncidente(){
+        GestionIncidentes incidentes = GestionIncidentes.ObtenerInstancia(new ArrayList<>());
+        Scanner input = new Scanner(System.in);
+        System.out.println("Digite la descripción del incidente: ");
+        String descripcion = input.nextLine();
+        System.out.println("Digite la ubicación del incidente: ");
+        String ubicacion = input.nextLine();
+        incidentes.reportarIncidente(descripcion, this, ubicacion);
+        input.close();
+        incidentes.MostrarIncidente();
+    }
 }

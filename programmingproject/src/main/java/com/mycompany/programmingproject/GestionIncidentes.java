@@ -1,7 +1,6 @@
 package com.mycompany.programmingproject;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GestionIncidentes {
     private ArrayList<Incidente> incidentes;
@@ -38,6 +37,16 @@ public class GestionIncidentes {
             if(incidente.getId() == id){
                 incidente.setEstado(nuevoEstado);
             }
+        }
+    }
+    public void MostrarIncidente(){
+        for (Incidente incidente : incidentes) {
+            System.out.println("ID: "+incidente.getId());
+            System.out.println("Descripción: "+incidente.getDescripcion());
+            System.out.println("Fecha y hora: "+incidente.getFechaHora());
+            System.out.println("Reportado por: "+incidente.getReportadoPor().getNombre());
+            System.out.println("Ubicación: "+incidente.getUbicacion());
+            System.out.println("Estado: "+incidente.getEstado());
         }
     }
 }
