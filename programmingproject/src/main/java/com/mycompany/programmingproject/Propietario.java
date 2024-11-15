@@ -7,6 +7,7 @@ public class Propietario extends Usuario{
     private String numapartamento;
     private boolean alDia;
     private ArrayList<Vehiculo> vehiculosRegistrados;
+    private ArrayList<Mercancia> mercanciasRegistradas;
 
     public Propietario() {
 
@@ -16,7 +17,6 @@ public class Propietario extends Usuario{
         super(id, nombre, email, contraseña, tipo);
         this.numapartamento = apartamento;
         this.alDia = true;
-        this.vehiculosRegistrados = new ArrayList<>();
     }
     public String getNumapartamento() {
         return numapartamento;
@@ -42,6 +42,20 @@ public class Propietario extends Usuario{
         this.vehiculosRegistrados = vehiculosRegistrados;
     }
     
+    
+    public void agregarVehiculo(Vehiculo vehiculo) {
+        if (vehiculosRegistrados == null) {
+            vehiculosRegistrados = new ArrayList<>();
+        }
+        vehiculosRegistrados.add(vehiculo);
+    }
+
+    public void agregarMercancia(Mercancia mercancia) {
+        if (mercanciasRegistradas == null) {
+            mercanciasRegistradas = new ArrayList<>();
+        }
+        mercanciasRegistradas.add(mercancia);
+    }
     public void reporteIncidente(){
         GestionIncidentes incidentes = GestionIncidentes.ObtenerInstancia(new ArrayList<>());
         Scanner input = new Scanner(System.in);
