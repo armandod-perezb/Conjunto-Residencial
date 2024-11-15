@@ -3,24 +3,23 @@ package com.mycompany.programmingproject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class GestionMercancia {
-    private ArrayList<Mercancia> mercancias;
+    private List<Mercancia> mercancias;
     private static GestionMercancia instancia;
 
-    private GestionMercancia(ArrayList<Mercancia> mercancias) {
+    private GestionMercancia(List<Mercancia> mercancias) {
         this.mercancias = mercancias;
     }
 
-    public ArrayList<Mercancia> getMercancias() {
+    public List<Mercancia> getMercancias() {
         return mercancias;
     }
 
-    public void setMercancias(ArrayList<Mercancia> mercancias) {
+    public void setMercancias(List<Mercancia> mercancias) {
         this.mercancias = mercancias;
     }
     
-    public static GestionMercancia ObtenerInstancia(ArrayList<Mercancia> mercancias){
+    public static GestionMercancia ObtenerInstancia(List<Mercancia> mercancias){
         if(instancia == null){
             instancia = new GestionMercancia(mercancias);
         }

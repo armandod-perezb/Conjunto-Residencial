@@ -1,13 +1,14 @@
 package com.mycompany.programmingproject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Propietario extends Usuario{
     private String numapartamento;
     private boolean alDia;
-    private ArrayList<Vehiculo> vehiculosRegistrados;
-    private ArrayList<Mercancia> mercanciasRegistradas;
+    private List<Vehiculo> vehiculosRegistrados;
+    private List<Mercancia> mercanciasRegistradas;
 
     public Propietario() {
 
@@ -34,11 +35,11 @@ public class Propietario extends Usuario{
         this.alDia = alDia;
     }
 
-    public ArrayList<Vehiculo> getVehiculosRegistrados() {
+    public List<Vehiculo> getVehiculosRegistrados() {
         return vehiculosRegistrados;
     }
 
-    public void setVehiculosRegistrados(ArrayList<Vehiculo> vehiculosRegistrados) {
+    public void setVehiculosRegistrados(List<Vehiculo> vehiculosRegistrados) {
         this.vehiculosRegistrados = vehiculosRegistrados;
     }
     
