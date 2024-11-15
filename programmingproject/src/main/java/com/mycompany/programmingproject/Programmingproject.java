@@ -8,7 +8,13 @@ import java.util.Scanner;
 
 public class Programmingproject {
 
+    // Declare lists using polymorphism
+    static List<Usuario> administradores = new ArrayList<>();
+    static List<Usuario> vigilantes = new ArrayList<>();
+    static List<Usuario> propietarios = new ArrayList<>();
+
     public static void main(String[] args) {
+        
         int op = 0;
         while(op!=3){
             op = menuiniciosesion();
@@ -29,13 +35,16 @@ public class Programmingproject {
                 String tipousuario;
                 switch(opciontipo){
                     case 1:
-                    tipousuario="Propietario";
+                    tipousuario="propietario";
+                    propietarios.add(new Propietario(0, nombre, email, contraseña, tipousuario, "apartamento"));
                     break;
                     case 2:
-                    tipousuario="Vigilante";
+                    tipousuario="vigilante";
+                    vigilantes.add(new Vigilante(0, nombre, email, contraseña, tipousuario, "turno"));
                     break;
                     case 3:
-                    tipousuario="Administrador";
+                    tipousuario="administrador";
+                    administradores.add(new Administrador(0, nombre, email, contraseña, tipousuario));
                     break;
                     default:
                     System.out.println("Dato inválido");
