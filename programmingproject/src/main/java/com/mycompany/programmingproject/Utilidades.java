@@ -1,63 +1,66 @@
 package com.mycompany.programmingproject;
+
 import java.util.Scanner;
 
 public class Utilidades {
-    //se declara el objeto de scanner
-    private static final Scanner leer= new Scanner(System.in);
+    // se declara el objeto de scanner
+    private static final Scanner leer = new Scanner(System.in);
+
     public Utilidades() {
     }
-    
-    //método para validar los integers
-    public static boolean validacion(String a){
+
+    // método para validar los integers
+    public static boolean validacion(String a) {
         return a.matches("[0-9]+");
     }
-    
-    //método para registrar integer
-    public static int registrarinteger(String mensaje){
+
+    // método para registrar integer
+    public static int registrarinteger(String mensaje) {
         String val;
-        while(true){
-           val = registrarstring(mensaje);
-           if(validacion(val)){
-               break;
-           }else{
-               System.out.println("Digite numeros enteros positivos");
-           }
+        while (true) {
+            val = registrarstring(mensaje);
+            if (validacion(val)) {
+                break;
+            } else {
+                System.out.println("Digite numeros enteros positivos");
+            }
         }
-         
+
         return Integer.parseInt(val);
     }
-    //método para registrar string
-    public static String registrarstring(String mensaje){
+
+    // método para registrar string
+    public static String registrarstring(String mensaje) {
         System.out.println(mensaje);
         String string = leer.nextLine();
         return string;
     }
-    
-    //Registrar double
-    public static Double registrardouble(String mensaje){
-        boolean parametro=false;
-        double var=0;
-        while(true){
+
+    // Registrar double
+    public static Double registrardouble(String mensaje) {
+        boolean parametro = false;
+        double var = 0;
+        while (true) {
             try {
                 System.out.println(mensaje);
                 var = leer.nextDouble();
-                parametro=true;
-                
+                parametro = true;
+
                 leer.nextLine();
             } catch (Exception e) {
                 System.out.println("Parámetro inválido, digite el parámetro correcto");
                 leer.nextLine();
-                parametro=false;
+                parametro = false;
             }
-            if(parametro){
+            if (parametro) {
                 break;
             }
-           
+
         }
         return var;
     }
-    
-    //Registrar boolean
+
+    // Registrar boolean
     public static boolean registrarboolean(String pregunta) {
         String opcion;
         while (true) {
@@ -81,7 +84,5 @@ public class Utilidades {
         }
 
     }
-    
-    
-    
+
 }
