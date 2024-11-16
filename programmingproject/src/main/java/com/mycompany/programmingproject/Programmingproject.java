@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Programmingproject {
 
-    // Declare lists using polymorphism
+    // Declarar listas
     static List<Usuario> administradores = new ArrayList<>();
     static List<Usuario> vigilantes = new ArrayList<>();
     static List<Usuario> propietarios = new ArrayList<>();
