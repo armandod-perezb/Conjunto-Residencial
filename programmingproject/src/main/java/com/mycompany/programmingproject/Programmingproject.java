@@ -14,7 +14,16 @@ public class Programmingproject {
     static List<Usuario> propietarios = new ArrayList<>();
 
     public static void main(String[] args) {
-        
+        System.out.println("Directorio de trabajo actual: " + System.getProperty("user.dir"));
+        String fileUsuarios="usuarios.csv";
+        String fileMercancias = "mercancias.csv";
+        String fileVehiculos = "vehiculos.csv";
+        archivoHandler manejadorArchivos = archivoHandler.getInstancia(fileUsuarios);
+        List<Usuario> usuarios  = manejadorArchivos.cargarUsuariosDesdeCSV(fileUsuarios, fileMercancias, fileVehiculos);
+        System.out.println("Número de usuarios cargados: " + usuarios.size());
+        for (Usuario usuario : usuarios) {
+            System.out.println(usuario);
+        }
         int op = 0;
         while (op != 3) {
             op = menuiniciosesion();

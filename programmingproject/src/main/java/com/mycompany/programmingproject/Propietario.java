@@ -73,4 +73,19 @@ public class Propietario extends Usuario{
         incidentes.reportarIncidente(descripcion, this, ubicacion);
         incidentes.MostrarIncidente();
     }
+
+    @Override
+    public String toString() {
+        return "Propietario{" +
+                "id=" + getId() +
+                ", nombre='" + getNombre() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", contraseña='" + getContraseña() + '\'' +
+                ", tipo='" + getTipo() + '\'' +
+                ", numapartamento='" + numapartamento + '\'' +
+                ", alDia=" + alDia +
+                ", vehiculosRegistrados=" + vehiculosRegistrados + // Avoid calling toString on Vehiculo
+                ", mercanciasRegistradas=" + mercanciasRegistradas + // Avoid calling toString on Mercancia
+                '}';
+    }
 }

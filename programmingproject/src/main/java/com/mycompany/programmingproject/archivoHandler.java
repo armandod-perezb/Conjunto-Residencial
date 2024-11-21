@@ -114,20 +114,12 @@ public class archivoHandler {
         try (BufferedReader br = new BufferedReader(new FileReader(archivoMercancias))) {
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length >= 5) {
+                if (datos.length >= 6) {
                     int id = Integer.parseInt(datos[0]);
                     String descripcion = datos[1];
-                    double valor = Double.parseDouble(datos[2]);
-                    int id_destinatario = Integer.parseInt(datos[3]);
-                    String tiempo = datos[4];
-                    int año = Integer.parseInt(tiempo.substring(0, 4));
-                    int mes = Integer.parseInt(tiempo.substring(5, 7));
-                    int dia = Integer.parseInt(tiempo.substring(8, 10));
-                    int hora = Integer.parseInt(tiempo.substring(11, 13));
-                    int minuto = Integer.parseInt(tiempo.substring(14, 16));
-                    int segundo = Integer.parseInt(tiempo.substring(17, 19));
-                    LocalDateTime fechaHoraLlegada = LocalDateTime.of(año, mes, dia, hora, minuto, segundo);
-                    boolean entregada = Boolean.parseBoolean(datos[5]);
+                    int id_destinatario = Integer.parseInt(datos[2]);
+                    LocalDateTime fechaHoraLlegada = LocalDateTime.parse(datos[3]);
+                    boolean entregada = Boolean.parseBoolean(datos[4]);
                     for (Propietario propietario : propietarios) {
                         if (propietario.getId() == id_destinatario) {
                             mercancias.add(new Mercancia(id, descripcion, propietario));
@@ -151,11 +143,10 @@ public class archivoHandler {
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
                 if (datos.length >= 4) {
-                    int id = Integer.parseInt(datos[0]);
-                    String placa = datos[1];
-                    String tipo = datos[2];
-                    int id_propietario = Integer.parseInt(datos[3]);
-                    boolean autorizado = Boolean.parseBoolean(datos[4]);
+                    String placa = datos[0];
+                    String tipo = datos[1];
+                    int id_propietario = Integer.parseInt(datos[2]);
+                    boolean autorizado = Boolean.parseBoolean(datos[3]);
                     for (Propietario propietario : propietarios) {
                         if (propietario.getId() == id_propietario) {
                             vehiculos.add(new Vehiculo(placa, tipo, propietario, autorizado));
@@ -216,12 +207,12 @@ public class archivoHandler {
                 List<Vehiculo> vehiculos = cargarVehiculosDesdeCSV(archivoVehiculos, propietarios);
                 for (Mercancia mercancia : mercancias) {
                     if (mercancia.getDestinatario().getId() == propietario.getId()) {
-                        propietario.setMercanciasRegistradas(mercancias);
+                        propietario.agregarMercancia(mercancia);;
                     }
                 }
                 for (Vehiculo vehiculo : vehiculos) {
                     if (vehiculo.getPropietario().getId() == propietario.getId()) {
-                        propietario.setVehiculosRegistrados(vehiculos);
+                        propietario.agregarVehiculo(vehiculo);;
                     }
                 }
             }

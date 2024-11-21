@@ -11,6 +11,17 @@ public class Administrador extends Usuario {
         super(id, nombre, email, contraseña, tipo);
     }
 
+    @Override
+    public String toString() {
+        return "Administrador{" +
+                "id=" + getId() +
+                ", nombre='" + getNombre() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", contraseña='" + getContraseña() + '\'' +
+                ", tipo='" + getTipo() + '\'' +
+                '}';
+    }
+
     public void GenerarPago() {
         Utilidades util = new Utilidades();
         GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<Pago>());

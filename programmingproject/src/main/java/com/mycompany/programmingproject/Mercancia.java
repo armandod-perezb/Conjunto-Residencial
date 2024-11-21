@@ -59,7 +59,13 @@ public class Mercancia {
 
     @Override
     public String toString() {
-        return "Mercancia{" + "id=" + id + ", descripcion=" + descripcion + ", destinatario=" + destinatario + ", fechaHoraLlegada=" + fechaHoraLlegada + ", entregada=" + entregada + '}';
+        return "Mercancia{" +
+                "id=" + id +
+                ", descripcion='" + descripcion + '\'' +
+                ", destinatario=" + destinatario.getNombre() +
+                ", fechaHoraLlegada=" + fechaHoraLlegada +
+                ", entregada=" + entregada +
+                '}';
     }
     
     
