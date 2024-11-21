@@ -1,5 +1,6 @@
 package com.mycompany.programmingproject;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Utilidades {
@@ -85,4 +86,57 @@ public class Utilidades {
 
     }
 
+    public static boolean contieneUsuario(List<Usuario> usuarios, int id){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).getId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int hallarIndexUsuario(List<Usuario> usuarios, int id){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).getId()==id){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static boolean contieneVehiculoPorPlaca(List<Vehiculo> vehiculos, String placa) {
+        for (Vehiculo vehiculo : vehiculos) {
+            if (vehiculo.getPlaca().equalsIgnoreCase(placa)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static int hallarIndexVehiculoPorPlaca(List<Vehiculo> vehiculos, String placa) {
+        for (int i = 0; i < vehiculos.size(); i++) {
+            if (vehiculos.get(i).getPlaca().equalsIgnoreCase(placa)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static boolean contieneMercancia(List<Mercancia> mercancias, int id){
+        for (int i = 0; i < mercancias.size(); i++) {
+            if(mercancias.get(i).getId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int hallarIndexMercancia(List<Mercancia> mercancias, int id){
+        for (int i = 0; i < mercancias.size(); i++) {
+            if(mercancias.get(i).getId()==id){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

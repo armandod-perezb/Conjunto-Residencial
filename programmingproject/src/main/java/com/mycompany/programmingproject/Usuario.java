@@ -61,6 +61,15 @@ public class Usuario {
         this.tipo = tipo;
     }
     
+    public boolean contiene(List<Usuario> usuarios, int id){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).getId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int hallarIndex(List<Usuario> usuarios, int id){
         for (int i = 0; i < usuarios.size(); i++) {
             if(usuarios.get(i).getId()==id){
@@ -68,5 +77,16 @@ public class Usuario {
             }
         }
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", contraseña='" + contraseña + '\'' +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
 }
