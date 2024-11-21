@@ -32,29 +32,46 @@ public class Programmingproject {
                     System.out.println("Iniciar sesión (mensaje)");
                     break;
                 case 2: // Registrar usuario
+                    int id;
+                    while(true){
+                         id= Utilidades.registrarinteger("Digite id de usuario: ");
+                        if(Utilidades.contieneUsuario(usuarios, id)){
+                            System.out.println("El id ya existe. Registre uno diferente");
+                        }else{
+                            break;
+                        }
+                    }
                     String nombre = Utilidades.registrarstring("Digite nombre de usuario: ");
                     String email = Utilidades.registrarstring("Digite email");
                     String contraseña = Utilidades.registrarstring("Digite Contraseña");
-                    int opciontipo = Utilidades.registrarinteger("""
-                            Digite tipo de usuario
-                            1. Propietario
-                            2. Vigilante
-                            3. Administrador
-                            4. Salir""");
-                    String tipousuario;
-                    switch (opciontipo) {
-                        case 1:
-                            tipousuario = "Propietario";
+                    while(true){
+                        boolean control = true;
+                            int opciontipo = Utilidades.registrarinteger("""
+                                Digite tipo de usuario
+                                1. Propietario
+                                2. Vigilante
+                                3. Administrador
+                                4. Salir""");
+                        switch (opciontipo) {
+                            case 1:
+                                String num_apartamento = Utilidades.registrarstring("Digite número de apartamento");
+                                usuarios.add(new Propietario(id, nombre, email, contraseña, "propietario", num_apartamento));
+                                break;
+                            case 2:
+                                String turno = Utilidades.registrarstring("Digite turno (diurno/nocturno): ");
+                                usuarios.add(new Vigilante(id, nombre, email, contraseña, "vigilante", turno));
+                                break;
+                            case 3:
+                                usuarios.add(new Administrador(id, nombre, email, contraseña, "administrador"));
+                                break;
+                            default:
+                                System.out.println("Dato inválido");
+                                control=false;
+                                break;
+                        }
+                        if(control){
                             break;
-                        case 2:
-                            tipousuario = "Vigilante";
-                            break;
-                        case 3:
-                            tipousuario = "Administrador";
-                            break;
-                        default:
-                            System.out.println("Dato inválido");
-                            break;
+                        }
                     }
                     break;
                 case 3: // Salir

@@ -61,6 +61,15 @@ public class Usuario {
         this.tipo = tipo;
     }
     
+    public boolean contiene(List<Usuario> usuarios, int id){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).getId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int hallarIndex(List<Usuario> usuarios, int id){
         for (int i = 0; i < usuarios.size(); i++) {
             if(usuarios.get(i).getId()==id){
