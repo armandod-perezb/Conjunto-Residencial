@@ -73,4 +73,12 @@ public class Propietario extends Usuario{
         incidentes.reportarIncidente(descripcion, this, ubicacion);
         incidentes.MostrarIncidente();
     }
+
+    public void autorizarVehiculo(){
+        ControlAcceso acceso = ControlAcceso.ObtenerInstancia(new ArrayList<>());
+        String placa = Utilidades.registrarstring("Digite la placa del vehículo: ");
+        String tipo = Utilidades.registrarstring("Digite el tipo de vehículo: ");
+        Vehiculo vehiculo = new Vehiculo(placa, tipo, this, true);
+        acceso.agregarVehiculoAutorizado(vehiculo);
+    }
 }
