@@ -40,9 +40,18 @@ public class Propietario extends Usuario{
     }
 
     public void setVehiculosRegistrados(List<Vehiculo> vehiculosRegistrados) {
+        vehiculosRegistrados = new ArrayList<>();
         this.vehiculosRegistrados = vehiculosRegistrados;
     }
-    
+
+    public List<Mercancia> getMercanciasRegistradas() {
+        return mercanciasRegistradas;
+    }
+
+    public void setMercanciasRegistradas(List<Mercancia> mercanciasRegistradas) {
+        mercanciasRegistradas = new ArrayList<>();
+        this.mercanciasRegistradas = mercanciasRegistradas;
+    }
     
     public void agregarVehiculo(Vehiculo vehiculo) {
         if (vehiculosRegistrados == null) {
