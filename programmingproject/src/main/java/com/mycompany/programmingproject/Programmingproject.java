@@ -18,6 +18,7 @@ public class Programmingproject {
         String fileUsuarios="usuarios.csv";
         String fileMercancias = "mercancias.csv";
         String fileVehiculos = "vehiculos.csv";
+        IniciarSesion iniciarSesion = IniciarSesion.getInstancia();
         archivoHandler manejadorArchivos = archivoHandler.getInstancia(fileUsuarios);
         List<Usuario> usuarios  = manejadorArchivos.cargarUsuariosDesdeCSV(fileUsuarios, fileMercancias, fileVehiculos);
         System.out.println("Número de usuarios cargados: " + usuarios.size());
@@ -29,8 +30,116 @@ public class Programmingproject {
             op = menuiniciosesion();
             switch (op) {
                 case 1: // Iniciar sesión
-                    System.out.println("Iniciar sesión (mensaje)");
-                    break;
+                int idIniciarSesion;
+                int indexUsuario;
+                while (true) {
+                    idIniciarSesion = Utilidades.registrarinteger("Digite id de usuario: ");
+                    String contraseñaIniciarSesion = Utilidades.registrarstring("Digite contraseña: ");
+                    if(Utilidades.CredencialesValidas(usuarios, idIniciarSesion, contraseñaIniciarSesion)) {
+                        indexUsuario = Utilidades.hallarIndexUsuario(usuarios, idIniciarSesion);
+                        iniciarSesion.iniciarSesion(usuarios.get(indexUsuario));
+                        break;
+                    } else {
+                        System.out.println("Credenciales inválidas");
+                    }
+                }
+                        switch (iniciarSesion.getUsuarioActual().getTipo()) {
+                            case "propietario":
+                                int propietarioOp = 0;
+                                while (propietarioOp != 5) {
+                                    propietarioOp = menupropietario();
+                                    switch (propietarioOp) {
+                                        case 1:
+                                            // Realizar pago
+                                            System.out.println("Realizar pago");
+                                            break;
+                                        case 2:
+                                            // Reportar incidente
+                                            System.out.println("Reportar incidente");
+                                            break;
+                                        case 3:
+                                            // Autorizar vehículo
+                                            System.out.println("Autorizar vehículo");
+                                            break;
+                                        case 4:
+                                            // Visualizar mercancía
+                                            System.out.println("Visualizar mercancía");
+                                            break;
+                                        case 5:
+                                            // Salir
+                                            break;
+                                        default:
+                                            System.out.println("Opción inválida");
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "vigilante":
+                                int vigilanteOp = 0;
+                                while (vigilanteOp != 4) {
+                                    vigilanteOp = menuvigilante();
+                                    switch (vigilanteOp) {
+                                        case 1:
+                                            // Registrar incidente
+                                            System.out.println("Registrar incidente");
+                                            break;
+                                        case 2:
+                                            // Registrar entrada de vehículo
+                                            System.out.println("Registrar entrada de vehículo");
+                                            break;
+                                        case 3:
+                                            // Registrar llegada de mercancía
+                                            System.out.println("Registrar llegada de mercancía");
+                                            break;
+                                        case 4:
+                                            // Salir
+                                            
+                                            break;
+                                        default:
+                                            System.out.println("Opción inválida");
+                                            break;
+                                    }
+                                }
+                                break;
+                            case "administrador":
+                                int adminOp = 0;
+                                while (adminOp != 5) {
+                                    adminOp = menuadministrador();
+                                    switch (adminOp) {
+                                        case 1:
+                                            // Gestionar Pagos
+                                            System.out.println("Gestionar Pagos");
+                                            break;
+                                        case 2:
+                                            // Gestionar Incidentes
+                                            System.out.println("Gestionar Incidentes");
+                                            break;
+                                        case 3:
+                                            // Control de Vehículos
+                                            System.out.println("Control de Vehículos");
+                                            break;
+                                        case 4:
+                                            // Gestionar Mercancía
+                                            System.out.println("Gestionar Mercancía");
+                                            break;
+                                        case 5:
+                                            // Mostrar información
+                                            System.out.println("Mostrar información");
+                                            break;
+                                        case 6:
+                                            // Salir
+                                            break;
+                                        default:
+                                            System.out.println("Opción inválida");
+                                            break;
+                                    }
+                                }
+                                break;
+                            default:
+                                System.out.println("Tipo de usuario inválido");
+                                break;
+                        }
+                break;
                 case 2: // Registrar usuario
                     int id;
                     while(true){
@@ -126,3 +235,5 @@ public class Programmingproject {
                         """);
     }
 }
+
+

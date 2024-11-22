@@ -25,8 +25,8 @@ public class GestionPagos {
         }
         return instancia;
     }
-    public Pago registrarPago(Propietario propietario, double monto, String concepto) {
-        Pago pago = new Pago(pagos.size()+1, propietario, monto, concepto);
+    public Pago registrarPago(Propietario propietario, String mediodepago, double monto, String concepto) {
+        Pago pago = new Pago(pagos.size()+1, mediodepago, propietario, monto, concepto);
         pagos.add(pago);
         return pago;
     }

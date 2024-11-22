@@ -6,11 +6,12 @@ public class Pago {
     private int id;
     private Propietario propietario;
     private double monto;
+    private String mediodepago;
     private LocalDate fecha;
     private String concepto;
     private String estado;
 
-    public Pago(int id, Propietario propietario, double monto, String concepto) {
+    public Pago(int id, String mediodepago, Propietario propietario, double monto, String concepto) {
         this.id = id;
         this.propietario = propietario;
         this.monto = monto;
@@ -42,6 +43,14 @@ public class Pago {
 
     public void setMonto(double monto) {
         this.monto = monto;
+    }
+
+    public String getMediodepago() {
+        return mediodepago;
+    }
+
+    public void setMediodepago(String mediodepago) {
+        this.mediodepago = mediodepago;
     }
 
     public LocalDate getFecha() {

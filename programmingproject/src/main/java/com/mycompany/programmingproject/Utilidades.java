@@ -95,6 +95,15 @@ public class Utilidades {
         return false;
     }
 
+    public static boolean CredencialesValidas(List<Usuario> usuarios, int id, String contraseña){
+        for (int i = 0; i < usuarios.size(); i++) {
+            if(usuarios.get(i).getId()==id && usuarios.get(i).getContraseña().equals(contraseña)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static int hallarIndexUsuario(List<Usuario> usuarios, int id){
         for (int i = 0; i < usuarios.size(); i++) {
             if(usuarios.get(i).getId()==id){
@@ -104,7 +113,7 @@ public class Utilidades {
         return -1;
     }
 
-    public static boolean contieneVehiculoPorPlaca(List<Vehiculo> vehiculos, String placa) {
+    public static boolean contieneVehiculo(List<Vehiculo> vehiculos, String placa) {
         for (Vehiculo vehiculo : vehiculos) {
             if (vehiculo.getPlaca().equalsIgnoreCase(placa)) {
                 return true;
@@ -113,7 +122,7 @@ public class Utilidades {
         return false;
     }
     
-    public static int hallarIndexVehiculoPorPlaca(List<Vehiculo> vehiculos, String placa) {
+    public static int hallarIndexVehiculo(List<Vehiculo> vehiculos, String placa) {
         for (int i = 0; i < vehiculos.size(); i++) {
             if (vehiculos.get(i).getPlaca().equalsIgnoreCase(placa)) {
                 return i;
