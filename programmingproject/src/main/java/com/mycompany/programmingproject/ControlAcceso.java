@@ -1,27 +1,28 @@
 package com.mycompany.programmingproject;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ControlAcceso {
-    private ArrayList<Vehiculo> VehiculosAutorizados;
-    private ArrayList<RegistroAcceso> registrosAcceso;
+    private List<Vehiculo> VehiculosAutorizados;
+    private List<RegistroAcceso> registrosAcceso;
     private static ControlAcceso instancia;
 
-    public ControlAcceso(ArrayList<RegistroAcceso> registrosAcceso) {
+    private ControlAcceso(List<RegistroAcceso> registrosAcceso, List<Vehiculo> VehiculosAutorizados) {
         this.registrosAcceso = registrosAcceso;
+        this.VehiculosAutorizados = VehiculosAutorizados;
     }
 
-    public ArrayList<RegistroAcceso> getRegistrosAcceso() {
+    public List<RegistroAcceso> getRegistrosAcceso() {
         return registrosAcceso;
     }
 
-    public void setRegistrosAcceso(ArrayList<RegistroAcceso> registrosAcceso) {
+    public void setRegistrosAcceso(List<RegistroAcceso> registrosAcceso) {
         this.registrosAcceso = registrosAcceso;
     }
     
-    public static ControlAcceso ObtenerInstancia(ArrayList<RegistroAcceso> registrosAcceso){
+    public static ControlAcceso ObtenerInstancia(List<RegistroAcceso> registrosAcceso, List<Vehiculo> VehiculosAutorizados){
         if(instancia==null){
-            instancia = new ControlAcceso(registrosAcceso);
+            instancia = new ControlAcceso(registrosAcceso, VehiculosAutorizados);
         }
         return instancia;
     }

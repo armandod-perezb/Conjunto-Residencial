@@ -38,6 +38,7 @@ public class Programmingproject {
                     if(Utilidades.CredencialesValidas(usuarios, idIniciarSesion, contraseñaIniciarSesion)) {
                         indexUsuario = Utilidades.hallarIndexUsuario(usuarios, idIniciarSesion);
                         iniciarSesion.iniciarSesion(usuarios.get(indexUsuario));
+                        Usuario actual = iniciarSesion.getUsuarioActual();
                         break;
                     } else {
                         System.out.println("Credenciales inválidas");
@@ -45,17 +46,18 @@ public class Programmingproject {
                 }
                         switch (iniciarSesion.getUsuarioActual().getTipo()) {
                             case "propietario":
+                            Propietario propietarioactual = (Propietario) iniciarSesion.getUsuarioActual();
                                 int propietarioOp = 0;
                                 while (propietarioOp != 5) {
                                     propietarioOp = menupropietario();
                                     switch (propietarioOp) {
                                         case 1:
                                             // Realizar pago
-                                            System.out.println("Realizar pago");
+                                            propietarioactual.efectuarPagos();
                                             break;
                                         case 2:
                                             // Reportar incidente
-                                            System.out.println("Reportar incidente");
+                                            propietarioactual.reporteIncidente();
                                             break;
                                         case 3:
                                             // Autorizar vehículo
@@ -63,7 +65,7 @@ public class Programmingproject {
                                             break;
                                         case 4:
                                             // Visualizar mercancía
-                                            System.out.println("Visualizar mercancía");
+                                            propietarioactual.mostrarMercancias();
                                             break;
                                         case 5:
                                             // Salir
@@ -75,13 +77,14 @@ public class Programmingproject {
                                 }
                                 break;
                             case "vigilante":
+                            Vigilante vigilanteactual = (Vigilante) iniciarSesion.getUsuarioActual();
                                 int vigilanteOp = 0;
                                 while (vigilanteOp != 4) {
                                     vigilanteOp = menuvigilante();
                                     switch (vigilanteOp) {
                                         case 1:
                                             // Registrar incidente
-                                            System.out.println("Registrar incidente");
+                                            vigilanteactual.RegistrarIncidentes();
                                             break;
                                         case 2:
                                             // Registrar entrada de vehículo
@@ -102,31 +105,104 @@ public class Programmingproject {
                                 }
                                 break;
                             case "administrador":
+                            Administrador administradoractual = (Administrador) iniciarSesion.getUsuarioActual();
                                 int adminOp = 0;
                                 while (adminOp != 5) {
                                     adminOp = menuadministrador();
                                     switch (adminOp) {
                                         case 1:
                                             // Gestionar Pagos
-                                            System.out.println("Gestionar Pagos");
+                                            int gestionPagosOp = 0;
+                                            while (gestionPagosOp != 3) {
+                                                gestionPagosOp = menugestionarpagos();
+                                                switch (gestionPagosOp) {
+                                                    case 1:
+                                                        // Ver pagos pendientes
+                                                        System.out.println("Ver pagos pendientes");
+                                                        break;
+                                                    case 2:
+                                                        // Registrar pago
+                                                        System.out.println("Registrar pago");
+                                                        break;
+                                                    case 3:
+                                                        // Salir
+                                                        break;
+                                                    default:
+                                                        System.out.println("Opción inválida");
+                                                        break;
+                                                }
+                                            }
                                             break;
                                         case 2:
                                             // Gestionar Incidentes
-                                            System.out.println("Gestionar Incidentes");
+                                            int gestionarIncidentesOp = 0;
+                                            while (gestionarIncidentesOp != 3) {
+                                                gestionarIncidentesOp = menugestionarincidentes();
+                                                switch (gestionarIncidentesOp) {
+                                                    case 1:
+                                                        // Ver incidentes reportados
+                                                        System.out.println("Ver incidentes reportados");
+                                                        break;
+                                                    case 2:
+                                                        // Registrar resolución de incidente
+                                                        System.out.println("Registrar resolución de incidente");
+                                                        break;
+                                                    case 3:
+                                                        // Salir
+                                                        break;
+                                                    default:
+                                                        System.out.println("Opción inválida");
+                                                        break;
+                                                }
+                                            }
                                             break;
                                         case 3:
                                             // Control de Vehículos
-                                            System.out.println("Control de Vehículos");
+                                            int controlVehiculosOp = 0;
+                                            while (controlVehiculosOp != 3) {
+                                                controlVehiculosOp = menucontrolvehiculos();
+                                                switch (controlVehiculosOp) {
+                                                    case 1:
+                                                        // Ver vehículos autorizados
+                                                        System.out.println("Ver vehículos autorizados");
+                                                        break;
+                                                    case 2:
+                                                        // Registrar entrada de vehículo
+                                                        System.out.println("Registrar entrada de vehículo");
+                                                        break;
+                                                    case 3:
+                                                        // Salir
+                                                        break;
+                                                    default:
+                                                        System.out.println("Opción inválida");
+                                                        break;
+                                                }
+                                            }
                                             break;
                                         case 4:
                                             // Gestionar Mercancía
-                                            System.out.println("Gestionar Mercancía");
+                                            int gestionarMercanciaOp = 0;
+                                            while (gestionarMercanciaOp != 3) {
+                                                gestionarMercanciaOp = menugestionarmercancia();
+                                                switch (gestionarMercanciaOp) {
+                                                    case 1:
+                                                        // Ver mercancías registradas
+                                                        System.out.println("Ver mercancías registradas");
+                                                        break;
+                                                    case 2:
+                                                        // Registrar nueva mercancía
+                                                        System.out.println("Registrar nueva mercancía");
+                                                        break;
+                                                    case 3:
+                                                        // Salir
+                                                        break;
+                                                    default:
+                                                        System.out.println("Opción inválida");
+                                                        break;
+                                                }
+                                            }
                                             break;
                                         case 5:
-                                            // Mostrar información
-                                            System.out.println("Mostrar información");
-                                            break;
-                                        case 6:
                                             // Salir
                                             break;
                                         default:
@@ -233,6 +309,50 @@ public class Programmingproject {
                 3. Registrar llegada de  mercancía
                 4. Salir
                         """);
+    }
+
+    // Menú de gestionar pagos
+    static int menugestionarpagos() {
+        return Utilidades.registrarinteger("""
+                Selecciona una opción
+                1. Ver pagos pendientes
+                2. Registrar pago
+                3. Generar reporte de pagos
+                4. Salir
+                """);
+    }
+
+    // Menú de gestionar incidentes
+    static int menugestionarincidentes() {
+        return Utilidades.registrarinteger("""
+                Selecciona una opción
+                1. Ver incidentes reportados
+                2. Registrar resolución de incidente
+                3. Generar reporte de incidentes
+                4. Salir
+                """);
+    }
+
+    // Menú de gestionar control de vehículos
+    static int menucontrolvehiculos() {
+        return Utilidades.registrarinteger("""
+                Selecciona una opción
+                1. Ver vehículos autorizados
+                2. Registrar entrada de vehículo
+                3. Generar reporte de vehículos
+                4. Salir
+                """);
+    }
+
+    // Menú de gestionar mercancía
+    static int menugestionarmercancia() {
+        return Utilidades.registrarinteger("""
+                Selecciona una opción
+                1. Ver mercancías registradas
+                2. Registrar nueva mercancía
+                3. Generar reporte de mercancías
+                4. Salir
+                """);
     }
 }
 

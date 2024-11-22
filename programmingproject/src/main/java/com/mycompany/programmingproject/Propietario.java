@@ -73,4 +73,48 @@ public class Propietario extends Usuario{
         incidentes.reportarIncidente(descripcion, this, ubicacion);
         incidentes.MostrarIncidente();
     }
+
+    public void mostrarVehiculos(){
+        if (vehiculosRegistrados == null) {
+            System.out.println("No hay vehiculos registrados");
+        }else{
+            for (Vehiculo vehiculo : vehiculosRegistrados) {
+                System.out.println(vehiculo);
+            }
+        }
+    }
+
+    public void mostrarMercancias(){
+        if (mercanciasRegistradas == null) {
+            System.out.println("No hay mercancias registradas");
+        }else{
+            for (Mercancia mercancia : mercanciasRegistradas) {
+                System.out.println(mercancia);
+            }
+        }
+    }
+
+    public void efectuarPagos(){
+        if(Propietario.this.isAlDia()){
+            System.out.println("El propietario esta al dia. No hay pagos pendientes");
+            return;
+
+        }
+        GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<>());
+        for (Pago pago : pagos.obtenerPagosPropietario(this)) {
+            if (pago.getEstado().equals("pendiente")) {
+                System.out.println("Usted tiene pago pendiente de $"+pago.getMonto()+" por concepto de "+pago.getConcepto());
+                double monto = Utilidades.registrardouble("Ingrese el monto del pago:");
+                String mediodepago = Utilidades.registrarstring("Ingrese el medio de pago: ");
+                if(monto >= pago.getMonto()){
+                    pago.setEstado("efectuado");
+                    pago.setMediodepago(mediodepago);
+                    System.out.println("Pago realizado con éxito");
+                }else{
+                    System.out.println("No se pudo realizar el pago debido a que no se canceló el monto completo. Intente de nuevo con el monto correcto");
+                }
+               
+            }
+        }
+    }
 }
