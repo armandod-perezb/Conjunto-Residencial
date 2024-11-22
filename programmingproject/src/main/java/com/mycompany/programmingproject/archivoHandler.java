@@ -282,4 +282,54 @@ public class archivoHandler {
             System.err.println("Error al escribir el archivo de usuarios: " + e.getMessage());
         }
     }
+
+    // Método para cargar los datos de un archivo CSV de incidentes y guardarlos en una lista
+    public List<Incidente> cargarIncidentesDesdeCSV(String archivoIncidentes, List<Usuario> usuarios) {
+        List<Incidente> incidentes = new ArrayList<>();
+        String linea;
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoIncidentes))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 6) {
+                    int id = Integer.parseInt(datos[0]);
+                    String descripcion = datos[1];
+                    int id_reportadoPor = Integer.parseInt(datos[2]);
+                    LocalDateTime fechaHora = LocalDateTime.parse(datos[3]);
+                    String ubicacion = datos[4];
+                    String estado = datos[5];
+                    for (Usuario usuario : usuarios) {
+                        if (usuario.getId() == id_reportadoPor) {
+                            Incidente incidente = new Incidente(id, descripcion, usuario, ubicacion);
+                            incidente.setFechaHora(fechaHora);
+                            incidente.setEstado(estado);
+                            incidentes.add(incidente);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de incidentes: " + e.getMessage());
+        }
+        return incidentes;
+    }
+
+    // Método para escribir la lista de incidentes en un archivo CSV
+    public void escribirIncidentesACSV(String archivoIncidentes, List<Incidente> incidentes) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoIncidentes))) {
+            for (Incidente incidente : incidentes) {
+                String linea = incidente.getId() + "," +
+                               incidente.getDescripcion() + "," +
+                               incidente.getReportadoPor().getId() + "," +
+                               incidente.getFechaHora().toString() + "," +
+                               incidente.getUbicacion() + "," +
+                               incidente.getEstado();
+                bw.write(linea);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error al escribir el archivo de incidentes: " + e.getMessage());
+        }
+    }
+    
 }
