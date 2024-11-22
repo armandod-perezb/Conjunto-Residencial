@@ -117,4 +117,14 @@ public class Propietario extends Usuario{
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Id de propietario " + getId() + '\n' +
+                "Número de apartamento: '" + numapartamento + '\n' +
+                "Al día: " + alDia +
+                "Vehiculos registrados: " + vehiculosRegistrados.size() + '\n' +
+                "Mercancias registradas: " + mercanciasRegistradas.size() + '\n' +
+                '}';
+    }
 }

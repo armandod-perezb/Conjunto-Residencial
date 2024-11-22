@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Administrador extends Usuario {
+    public GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<>());
     public Administrador() {
     }
 
@@ -23,15 +24,13 @@ public class Administrador extends Usuario {
     }
 
     public void GenerarPago(Propietario propietario) {
-        GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<>());
         double monto = Utilidades.registrardouble("Ingrese el monto del pago");
         String concepto = Utilidades.registrarstring("Ingrese el concepto del pago");
-        pagos.registrarPago(propietario, "no definido", monto, concepto);
+        this.pagos.registrarPago(propietario, "no definido", monto, concepto);
     }
 
     public void mostrarPagosPropietario(Propietario propietario){
-        GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<>());
-        List<Pago> pagosPropietario = pagos.obtenerPagosPropietario(propietario);
+        List<Pago> pagosPropietario = this.pagos.obtenerPagosPropietario(propietario);
         for (Pago pago : pagosPropietario) {
             System.out.println(pago);
         }
