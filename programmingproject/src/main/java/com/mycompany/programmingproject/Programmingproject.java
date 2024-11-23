@@ -532,8 +532,7 @@ public class Programmingproject {
                 Selecciona una opción
                 1. Modificar línea
                 2. Eliminar línea
-                3. Ver contenido
-                4. Salir
+                3. Salir
                 """);
     }
 }
