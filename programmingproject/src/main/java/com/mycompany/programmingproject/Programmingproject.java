@@ -5,10 +5,6 @@ import java.util.List;
 
 public class Programmingproject {
 
-    // Declarar listas
-    static List<Usuario> administradores = new ArrayList<>();
-    static List<Usuario> vigilantes = new ArrayList<>();
-    static List<Usuario> propietarios = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Directorio de trabajo actual: " + System.getProperty("user.dir"));
@@ -29,11 +25,16 @@ public class Programmingproject {
             }
             
         }
+        List<Mercancia> mercancias = manejadorArchivos.cargarMercanciasDesdeCSV(fileMercancias, propietarios);
         List<Incidente> incidentesCSV = manejadorArchivos.cargarIncidentesDesdeCSV(fileIncidentes, usuarios);
         List<Pago> pagosCSV = manejadorArchivos.cargarPagosDesdeCSV(filePagos, propietarios);
         List<Vehiculo> vehiculosCSV = manejadorArchivos.cargarVehiculosDesdeCSV(fileVehiculos, propietarios);
         List<RegistroAcceso> registroAccesoCSV = manejadorArchivos.cargarRegistrosAccesoDesdeCSV(fileRegistroAcceso, vehiculosCSV, usuarios);
         System.out.println("Número de usuarios cargados: " + usuarios.size());
+        GestionMercancia gestionMercancia = GestionMercancia.ObtenerInstancia(mercancias);
+        GestionIncidentes gestionIncidentes = GestionIncidentes.ObtenerInstancia(incidentesCSV);
+        GestionPagos gestionPagos = GestionPagos.ObtenerInstancia(pagosCSV);
+        ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(registroAccesoCSV, vehiculosCSV);
         for (Usuario usuario : usuarios) {
             System.out.println(usuario);
         }
@@ -134,7 +135,7 @@ public class Programmingproject {
                             case "administrador":
                             Administrador administradoractual = (Administrador) iniciarSesion.getUsuarioActual();
                                 int adminOp = 0;
-                                while (adminOp != 6) {
+                                while (adminOp != 7) { // Update the condition to include the new option
                                     adminOp = menuadministrador();
                                     switch (adminOp) {
                                         case 1:
@@ -207,7 +208,6 @@ public class Programmingproject {
                                         case 3:
                                             // Control de Vehículos
                                             int controlVehiculosOp = 0;
-                                            ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
                                             while (controlVehiculosOp != 4) {
                                                 controlVehiculosOp = menucontrolvehiculos();
                                                 switch (controlVehiculosOp) {
@@ -235,7 +235,6 @@ public class Programmingproject {
                                         case 4:
                                             // Gestionar Mercancía
                                             int gestionarMercanciaOp = 0;
-                                            GestionMercancia gestionMercancia = GestionMercancia.ObtenerInstancia(new ArrayList<>());
                                             while (gestionarMercanciaOp != 3) {
                                                 gestionarMercanciaOp = menugestionarmercancia();
                                                 switch (gestionarMercanciaOp) {
@@ -268,9 +267,19 @@ public class Programmingproject {
                                             break;
                                         case 5:
                                             // Exportar datos
-                                            exportarDatos(usuarios);
+                                            List<Propietario> propietariosexportar = new ArrayList<>();
+                                            for (Usuario usuario : usuarios) {
+                                                if(usuario.getTipo().equalsIgnoreCase("propietario")){
+                                                    propietariosexportar.add((Propietario) usuario);
+                                                }
+                                            }
+                                            exportarDatos(usuarios, propietariosexportar, gestionMercancia.getMercancias(),  controlAcceso.getVehiculosAutorizados(), gestionIncidentes.getIncidentes(), gestionPagos.getPagos(), controlAcceso.getRegistrosAcceso());
                                             break;
                                         case 6:
+                                            // Gestionar CSV
+                                            gestionarCSV();
+                                            break;
+                                        case 7:
                                             // Salir
                                             break;
                                         default:
@@ -347,10 +356,64 @@ public class Programmingproject {
     }
 
     // Método para exportar datos
-    static void exportarDatos(List<Usuario> usuarios) {
-        // Implementar la lógica para exportar datos
+    static void exportarDatos(List<Usuario> usuarios, List<Propietario> propietarios, List<Mercancia> mercancias, 
+    List<Vehiculo> vehiculos, List<Incidente> incidentes, List<Pago> pagos, List<RegistroAcceso> registroAccesos) {
+        String fileIncidentes = ("incidentes.csv");
+        String filePagos = ("pagos.csv");
+        String fileRegistroAcceso = ("registroacceso.csv");
+        String fileUsuarios="usuarios.csv";
+        String fileMercancias = "mercancias.csv";
+        String fileVehiculos = "vehiculos.csv";
+        archivoHandler handler = archivoHandler.getInstancia("");
+
+        if(handler.comprobararchivo(fileIncidentes)){
+            handler.escribirIncidentesACSV(fileIncidentes, incidentes);
+        } else {
+            for (Incidente incidente : incidentes) {
+                handler.agregarIncidenteACSV(fileIncidentes, incidente);
+            }
+        }
+
+        if(handler.comprobararchivo(filePagos)){
+            handler.escribirPagosACSV(filePagos, pagos);
+        } else {
+            for (Pago pago : pagos) {
+                handler.agregarPagoACSV(filePagos, pago);
+            }
+        }
+
+        if(handler.comprobararchivo(fileRegistroAcceso)){
+            handler.escribirRegistrosAccesoACSV(fileRegistroAcceso, registroAccesos);
+        } else {
+            for (RegistroAcceso registro : registroAccesos) {
+                handler.agregarRegistroAccesoACSV(fileRegistroAcceso, registro);
+            }
+        }
+
+        if(handler.comprobararchivo(fileUsuarios)){
+            handler.escribirUsuariosACSV(fileUsuarios, usuarios);
+        } else {
+            for (Usuario usuario : usuarios) {
+                handler.agregarUsuarioACSV(fileUsuarios, usuario);
+            }
+        }
+
+        if(handler.comprobararchivo(fileMercancias)){
+            handler.escribirMercanciasACSV(fileMercancias, mercancias);
+        } else {
+            for (Mercancia mercancia : mercancias) {
+                handler.agregarMercanciaACSV(fileMercancias, mercancia);
+            }
+        }
+
+        if(handler.comprobararchivo(fileVehiculos)){
+            handler.escribirVehiculosACSV(fileVehiculos, vehiculos);
+        } else {
+            for (Vehiculo vehiculo : vehiculos) {
+                handler.agregarVehiculoACSV(fileVehiculos, vehiculo);
+            }
+        }
         System.out.println("Exportando datos...");
-        // ...código para exportar datos...
     }
 
     // Menú de administrador
@@ -362,7 +425,8 @@ public class Programmingproject {
                 3. Control de Vehículos
                 4. Gestionar Mercancía
                 5. Exportar datos
-                6. Salir
+                6. Gestionar CSV
+                7. Salir
                         """);
     }
 
@@ -429,6 +493,47 @@ public class Programmingproject {
                 1. Ver mercancías registradas
                 2. Registrar nueva mercancía
                 3. Salir
+                """);
+    }
+
+    // Método para gestionar CSV
+    static void gestionarCSV() {
+        int csvOp = 0;
+        while (csvOp != 3) {
+            csvOp = menuCSV();
+            switch (csvOp) {
+                case 1:
+                    // Modificar línea
+                    String filePath = Utilidades.registrarstring("Digite el nombre del archivo CSV: ");
+                    int lineNumber = Utilidades.registrarinteger("Digite el número de línea a modificar: ");
+                    String newLine = Utilidades.registrarstring("Digite el nuevo contenido de la línea: ");
+                    archivoHandler.getInstancia("").modificarLinea(filePath, lineNumber, newLine);
+                    break;
+                case 2:
+                    // Eliminar línea
+                    filePath = Utilidades.registrarstring("Digite el nombre del archivo CSV: ");
+                    lineNumber = Utilidades.registrarinteger("Digite el número de línea a eliminar: ");
+                    archivoHandler.getInstancia("").eliminarLinea(filePath, lineNumber);
+                    break;
+                case 3:
+                    // Salir
+                    System.out.println("Saliendo...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+                    break;
+            }
+        }
+    }
+
+    // Menú de gestionar CSV
+    static int menuCSV() {
+        return Utilidades.registrarinteger("""
+                Selecciona una opción
+                1. Modificar línea
+                2. Eliminar línea
+                3. Ver contenido
+                4. Salir
                 """);
     }
 }

@@ -23,9 +23,9 @@ public class archivoHandler {
     }
     
     // Método para leer el archivo y devolver su contenido como una lista de líneas
-    public List<String> leerArchivo() {
+    public List<String> leerArchivo(String file) {
         List<String> lineas = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(this.fileName))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 lineas.add(linea);
@@ -34,6 +34,19 @@ public class archivoHandler {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
         return lineas;
+    }
+    public boolean comprobararchivo(String archivo){
+        List<String> lineas = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                lineas.add(linea);
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     // Método para agregar una sola línea al final del archivo sin sobrescribir el contenido
@@ -59,8 +72,8 @@ public class archivoHandler {
     }
 
     // Método para modificar una línea específica en el archivo
-    public void modificarLinea(int numeroLinea, String nuevaLinea) {
-        List<String> lineas = leerArchivo();
+    public void modificarLinea(String file, int numeroLinea, String nuevaLinea) {
+        List<String> lineas = leerArchivo(file);
         if (numeroLinea >= 0 && numeroLinea < lineas.size()) {
             lineas.set(numeroLinea, nuevaLinea);
             escribirArchivo(lineas); // Reescribimos el archivo con el cambio
@@ -70,8 +83,8 @@ public class archivoHandler {
     }
 
     // Método para eliminar una línea específica en el archivo
-    public void eliminarLinea(int numeroLinea) {
-        List<String> lineas = leerArchivo();
+    public void eliminarLinea(String file, int numeroLinea) {
+        List<String> lineas = leerArchivo(file);
         if (numeroLinea >= 0 && numeroLinea < lineas.size()) {
             lineas.remove(numeroLinea); // Remover la línea especificada
             escribirArchivo(lineas); // Reescribimos el archivo sin la línea eliminada
@@ -444,6 +457,108 @@ public class archivoHandler {
             }
         } catch (IOException e) {
             System.err.println("Error al escribir el archivo de registros de acceso: " + e.getMessage());
+        }
+    }
+
+    // Método para agregar una mercancia a un archivo CSV existente
+    public void agregarMercanciaACSV(String archivoMercancias, Mercancia mercancia) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoMercancias, true))) {
+            String linea = mercancia.getId() + "," +
+                           mercancia.getDescripcion() + "," +
+                           mercancia.getDestinatario().getId() + "," +
+                           mercancia.getFechaHoraLlegada().toString() + "," +
+                           mercancia.isEntregada();
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al agregar mercancia al archivo: " + e.getMessage());
+        }
+    }
+
+    // Método para agregar un vehiculo a un archivo CSV existente
+    public void agregarVehiculoACSV(String archivoVehiculos, Vehiculo vehiculo) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoVehiculos, true))) {
+            String linea = vehiculo.getPlaca() + "," +
+                           vehiculo.getTipo() + "," +
+                           vehiculo.getPropietario().getId() + "," +
+                           vehiculo.isAutorizado();
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al agregar vehiculo al archivo: " + e.getMessage());
+        }
+    }
+
+    // Método para agregar un usuario a un archivo CSV existente
+    public void agregarUsuarioACSV(String archivoUsuarios, Usuario usuario) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoUsuarios, true))) {
+            String linea = usuario.getId() + "," +
+                           usuario.getNombre() + "," +
+                           usuario.getEmail() + "," +
+                           usuario.getContraseña() + "," +
+                           usuario.getTipo();
+            if (usuario.getTipo().equalsIgnoreCase("propietario")) {
+                Propietario propietario = (Propietario) usuario;
+                linea += "," + propietario.getNumapartamento() + "," + propietario.isAlDia();
+            } else if (usuario instanceof Vigilante) {
+                Vigilante vigilante = (Vigilante) usuario;
+                linea += "," + vigilante.getTurno();
+            }
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al agregar usuario al archivo: " + e.getMessage());
+        }
+    }
+
+    // Método para agregar un incidente a un archivo CSV existente
+    public void agregarIncidenteACSV(String archivoIncidentes, Incidente incidente) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoIncidentes, true))) {
+            String linea = incidente.getId() + "," +
+                           incidente.getDescripcion() + "," +
+                           incidente.getReportadoPor().getId() + "," +
+                           incidente.getFechaHora().toString() + "," +
+                           incidente.getUbicacion() + "," +
+                           incidente.getEstado();
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al agregar incidente al archivo: " + e.getMessage());
+        }
+    }
+
+    // Método para agregar un pago a un archivo CSV existente
+    public void agregarPagoACSV(String archivoPagos, Pago pago) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoPagos, true))) {
+            String linea = pago.getId() + "," +
+                           pago.getPropietario().getId() + "," +
+                           pago.getMonto() + "," +
+                           pago.getFecha().toString();
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al agregar pago al archivo: " + e.getMessage());
+        }
+    }
+
+    // Método para agregar un registro de acceso a un archivo CSV existente
+    public void agregarRegistroAccesoACSV(String archivoRegistros, RegistroAcceso registro) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoRegistros, true))) {
+            String fecha = "";
+            if(registro.getFechaHoraSalida().toString()==null){
+                fecha="2023-10-15T14:30:00";
+               }else{
+                fecha = registro.getFechaHoraSalida().toString();
+               }
+            String linea = registro.getId() + "," +
+                           registro.getVehiculo().getPlaca() + "," +
+                           registro.getFechaHoraEntrada().toString() + "," +
+                           fecha + "," +
+                           registro.getRegistradoPor().getId();
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al agregar registro de acceso al archivo: " + e.getMessage());
         }
     }
 }
