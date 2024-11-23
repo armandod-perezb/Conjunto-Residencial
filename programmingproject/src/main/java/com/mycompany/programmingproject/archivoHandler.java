@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class archivoHandler {
     private String fileName;
@@ -107,6 +108,112 @@ public class archivoHandler {
             }
         }
 
+    
+    // Método para cargar los datos de un archivo CSV de incidentes y guardarlos en una lista
+    public List<Incidente> cargarIncidentesDesdeCSV(String archivoIncidentes, List<Usuario> usuarios) {
+        List<Incidente> incidentes = new ArrayList<>();
+        String linea;
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoIncidentes))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 6) {
+                    int id = Integer.parseInt(datos[0]);
+                    String descripcion = datos[1];
+                    int id_reportadoPor = Integer.parseInt(datos[2]);
+                    LocalDateTime fechaHora = LocalDateTime.parse(datos[3]);
+                    String ubicacion = datos[4];
+                    String estado = datos[5];
+                    for (Usuario usuario : usuarios) {
+                        if (usuario.getId() == id_reportadoPor) {
+                            Incidente incidente = new Incidente(id, descripcion, usuario, ubicacion);
+                            incidente.setFechaHora(fechaHora);
+                            incidente.setEstado(estado);
+                            incidentes.add(incidente);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de incidentes: " + e.getMessage());
+        }
+        return incidentes;
+    }
+
+
+     // Método para cargar los datos de un archivo CSV de pagos y guardarlos en una lista
+     public List<Pago> cargarPagosDesdeCSV(String archivoPagos, List<Propietario> propietarios) {
+        List<Pago> pagos = new ArrayList<>();
+        String linea;
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoPagos))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 7) {
+                    int id = Integer.parseInt(datos[0]);
+                    int id_propietario = Integer.parseInt(datos[1]);
+                    double monto = Double.parseDouble(datos[2]);
+                    String mediodepago = datos[3];
+                    LocalDate fecha = LocalDate.parse(datos[4]);
+                    String concepto = datos[5];
+                    String estado = datos[6];
+                    for (Propietario propietario : propietarios) {
+                        if (propietario.getId() == id_propietario) {
+                            Pago pago = new Pago(id, mediodepago, propietario, monto, concepto);
+                            pagos.add(pago);
+                            pagos.get(pagos.size() - 1).setFecha(fecha);
+                            pagos.get(pagos.size() - 1).setEstado(estado);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de pagos: " + e.getMessage());
+        }
+        return pagos;
+    }
+
+    // Método para cargar los datos de un archivo CSV de registros de acceso y guardarlos en una lista
+    public List<RegistroAcceso> cargarRegistrosAccesoDesdeCSV(String archivoRegistros, List<Vehiculo> vehiculos, List<Usuario> usuarios) {
+        List<RegistroAcceso> registrosAcceso = new ArrayList<>();
+        String linea;
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoRegistros))) {
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 5) {
+                    int id = Integer.parseInt(datos[0]);
+                    String placaVehiculo = datos[1];
+                    LocalDateTime fechaHoraEntrada = LocalDateTime.parse(datos[2]);
+                    LocalDateTime fechaHoraSalida = LocalDateTime.parse(datos[3]);
+                    int idRegistradoPor = Integer.parseInt(datos[4]);
+
+                    Vehiculo vehiculo = null;
+                    for (Vehiculo v : vehiculos) {
+                        if (v.getPlaca().equals(placaVehiculo)) {
+                            vehiculo = v;
+                            break;
+                        }
+                    }
+
+                    Usuario registradoPor = null;
+                    for (Usuario u : usuarios) {
+                        if (u.getId() == idRegistradoPor) {
+                            registradoPor = u;
+                            break;
+                        }
+                    }
+                    RegistroAcceso registroAcceso = new RegistroAcceso(id, vehiculo,registradoPor);
+                    registrosAcceso.add(registroAcceso);
+                    registrosAcceso.get(registrosAcceso.size() - 1).setFechaHoraEntrada(fechaHoraEntrada);
+                    registrosAcceso.get(registrosAcceso.size() - 1).setFechaHoraSalida(fechaHoraSalida);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de registros de acceso: " + e.getMessage());
+        }
+        return registrosAcceso;
+    }
+
     // Método para cargar los datos de un archivo CSV de mercancias y guardarlos en una lista
     public List<Mercancia> cargarMercanciasDesdeCSV(String archivoMercancias, List<Propietario> propietarios) {
         List<Mercancia> mercancias = new ArrayList<>();
@@ -114,7 +221,7 @@ public class archivoHandler {
         try (BufferedReader br = new BufferedReader(new FileReader(archivoMercancias))) {
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length >= 6) {
+                if (datos.length >= 5) {
                     int id = Integer.parseInt(datos[0]);
                     String descripcion = datos[1];
                     int id_destinatario = Integer.parseInt(datos[2]);
@@ -226,6 +333,8 @@ public class archivoHandler {
         }
     }
 
+    
+
     // Método para escribir la lista de mercancias en un archivo CSV
     public void escribirMercanciasACSV(String archivoMercancias, List<Mercancia> mercancias) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoMercancias))) {
@@ -268,7 +377,7 @@ public class archivoHandler {
                                usuario.getEmail() + "," +
                                usuario.getContraseña() + "," +
                                usuario.getTipo();
-                if (usuario instanceof Propietario) {
+                if (usuario.getTipo().equalsIgnoreCase("propietario")) {
                     Propietario propietario = (Propietario) usuario;
                     linea += "," + propietario.getNumapartamento() + "," + propietario.isAlDia();
                 } else if (usuario instanceof Vigilante) {
@@ -283,36 +392,7 @@ public class archivoHandler {
         }
     }
 
-    // Método para cargar los datos de un archivo CSV de incidentes y guardarlos en una lista
-    public List<Incidente> cargarIncidentesDesdeCSV(String archivoIncidentes, List<Usuario> usuarios) {
-        List<Incidente> incidentes = new ArrayList<>();
-        String linea;
-        try (BufferedReader br = new BufferedReader(new FileReader(archivoIncidentes))) {
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
-                if (datos.length >= 6) {
-                    int id = Integer.parseInt(datos[0]);
-                    String descripcion = datos[1];
-                    int id_reportadoPor = Integer.parseInt(datos[2]);
-                    LocalDateTime fechaHora = LocalDateTime.parse(datos[3]);
-                    String ubicacion = datos[4];
-                    String estado = datos[5];
-                    for (Usuario usuario : usuarios) {
-                        if (usuario.getId() == id_reportadoPor) {
-                            Incidente incidente = new Incidente(id, descripcion, usuario, ubicacion);
-                            incidente.setFechaHora(fechaHora);
-                            incidente.setEstado(estado);
-                            incidentes.add(incidente);
-                            break;
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo de incidentes: " + e.getMessage());
-        }
-        return incidentes;
-    }
+    
 
     // Método para escribir la lista de incidentes en un archivo CSV
     public void escribirIncidentesACSV(String archivoIncidentes, List<Incidente> incidentes) {
@@ -332,4 +412,38 @@ public class archivoHandler {
         }
     }
     
+   
+
+    // Método para escribir la lista de pagos en un archivo CSV
+    public void escribirPagosACSV(String archivoPagos, List<Pago> pagos) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoPagos))) {
+            for (Pago pago : pagos) {
+                String linea = pago.getId() + "," +
+                               pago.getPropietario().getId() + "," +
+                               pago.getMonto() + "," +
+                               pago.getFecha().toString();
+                bw.write(linea);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error al escribir el archivo de pagos: " + e.getMessage());
+        }
+    }
+
+    // Método para escribir la lista de registros de acceso en un archivo CSV
+    public void escribirRegistrosAccesoACSV(String archivoRegistros, List<RegistroAcceso> registrosAcceso) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoRegistros))) {
+            for (RegistroAcceso registro : registrosAcceso) {
+                String linea = registro.getId() + "," +
+                               registro.getVehiculo().getPlaca() + "," +
+                               registro.getFechaHoraEntrada().toString() + "," +
+                               registro.getFechaHoraSalida().toString() + "," +
+                               registro.getRegistradoPor().getId();
+                bw.write(linea);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error al escribir el archivo de registros de acceso: " + e.getMessage());
+        }
+    }
 }

@@ -1,10 +1,7 @@
 package com.mycompany.programmingproject;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Programmingproject {
 
@@ -15,12 +12,27 @@ public class Programmingproject {
 
     public static void main(String[] args) {
         System.out.println("Directorio de trabajo actual: " + System.getProperty("user.dir"));
+        // Declarar variables
+        String fileIncidentes = ("incidentes.csv");
+        String filePagos = ("pagos.csv");
+        String fileRegistroAcceso = ("registroacceso.csv");
         String fileUsuarios="usuarios.csv";
         String fileMercancias = "mercancias.csv";
         String fileVehiculos = "vehiculos.csv";
         IniciarSesion iniciarSesion = IniciarSesion.getInstancia();
         archivoHandler manejadorArchivos = archivoHandler.getInstancia(fileUsuarios);
         List<Usuario> usuarios  = manejadorArchivos.cargarUsuariosDesdeCSV(fileUsuarios, fileMercancias, fileVehiculos);
+        List<Propietario> propietarios = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            if (usuario.getTipo().equals("propietario")) {
+                propietarios.add((Propietario) usuario);
+            }
+            
+        }
+        List<Incidente> incidentesCSV = manejadorArchivos.cargarIncidentesDesdeCSV(fileIncidentes, usuarios);
+        List<Pago> pagosCSV = manejadorArchivos.cargarPagosDesdeCSV(filePagos, propietarios);
+        List<Vehiculo> vehiculosCSV = manejadorArchivos.cargarVehiculosDesdeCSV(fileVehiculos, propietarios);
+        List<RegistroAcceso> registroAccesoCSV = manejadorArchivos.cargarRegistrosAccesoDesdeCSV(fileRegistroAcceso, vehiculosCSV, usuarios);
         System.out.println("Número de usuarios cargados: " + usuarios.size());
         for (Usuario usuario : usuarios) {
             System.out.println(usuario);
@@ -121,8 +133,6 @@ public class Programmingproject {
                                 break;
                             case "administrador":
                             Administrador administradoractual = (Administrador) iniciarSesion.getUsuarioActual();
-                            int idpropietario;
-                            int indexpropietario;
                                 int adminOp = 0;
                                 while (adminOp != 6) {
                                     adminOp = menuadministrador();
