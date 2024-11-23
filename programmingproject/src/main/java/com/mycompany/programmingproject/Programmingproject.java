@@ -505,12 +505,21 @@ public class Programmingproject {
                 case 1:
                     // Modificar línea
                     String filePath = "usuarios.csv";
-                    archivoHandler archivoHandler = archivoHandler.getInstancia("");
-                    List<String> archivo = archivoHandler.leerArchivo(filePath);
+                    archivoHandler handler = archivoHandler.getInstancia("");
+                    List<String> archivo = handler.leerArchivo(filePath);
                     int lineNumber = Utilidades.registrarinteger("Digite el número de línea a modificar: ");
-                
-                    String newLine = Utilidades.registrarstring("Digite el nuevo contenido de la línea: ");
-                    archivoHandler.modificarLinea(filePath, lineNumber, newLine);
+                    
+                    if(lineNumber >= 0 && lineNumber <= archivo.size()){
+                        String[] datos = archivo.get(lineNumber).split(",");
+                        String nombre = Utilidades.registrarstring("Digite nuevo nombre: ");
+                        String email = Utilidades.registrarstring("Digite nuevo email: ");
+                        String contraseña = Utilidades.registrarstring("Digite nueva contraseña: ");
+                        datos[1] = nombre;
+                        datos[2] = email;
+                        datos[3] = contraseña;
+                        String newLine = String.join(",", datos);
+                        handler.modificarLinea(filePath, lineNumber, newLine);
+                        }
                     break;
                 case 2:
                     // Eliminar línea
@@ -533,7 +542,7 @@ public class Programmingproject {
     static int menuCSV() {
         return Utilidades.registrarinteger("""
                 Selecciona una opción
-                1. Modificar línea
+                1. Modificar usuario
                 2. Eliminar línea
                 3. Salir
                 """);

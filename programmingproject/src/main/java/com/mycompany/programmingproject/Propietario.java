@@ -92,7 +92,9 @@ public class Propietario extends Usuario{
             System.out.println("No hay vehiculos registrados");
         }else{
             for (Vehiculo vehiculo : vehiculosRegistrados) {
-                System.out.println(vehiculo);
+                System.out.println("--------------------------------");
+               vehiculo.mostrarDatos();
+                System.out.println("--------------------------------");
             }
         }
     }
