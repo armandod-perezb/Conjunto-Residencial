@@ -25,10 +25,9 @@ public class GestionMercancia {
         }
         return instancia;
     }
-    public Mercancia registrarLlegada(String descripcion, Propietario destinatario) {
+    public void registrarLlegada(String descripcion, Propietario destinatario) {
         Mercancia mercancia = new Mercancia(mercancias.size()+1, descripcion, destinatario);
         mercancias.add(mercancia);
-        return mercancia;
     }
 
     public void mostrarMercancias() {

@@ -212,7 +212,7 @@ public class archivoHandler {
                 }
                 for (Vehiculo vehiculo : vehiculos) {
                     if (vehiculo.getPropietario().getId() == propietario.getId()) {
-                        propietario.agregarVehiculo(vehiculo);;
+                        propietario.agregarVehiculo(vehiculo);
                     }
                 }
             }

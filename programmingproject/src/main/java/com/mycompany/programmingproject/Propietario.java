@@ -54,15 +54,22 @@ public class Propietario extends Usuario{
     }
     
     public void agregarVehiculo() {
+        if (vehiculosRegistrados == null) {
+            vehiculosRegistrados = new ArrayList<>();
+        }
         String placa = Utilidades.registrarstring("Digite la placa del vehiculo: ");
         String tipo = Utilidades.registrarstring("Digite el tipo de vehiculo: ");
         Vehiculo vehiculo = new Vehiculo(placa, tipo, this, true);
         ControlAcceso control = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
+        vehiculosRegistrados.add(vehiculo);
+        control.agregarVehiculoAutorizado(vehiculo);
+    }
+
+    public void agregarVehiculo(Vehiculo vehiculo) {
         if (vehiculosRegistrados == null) {
             vehiculosRegistrados = new ArrayList<>();
         }
         vehiculosRegistrados.add(vehiculo);
-        control.agregarVehiculoAutorizado(vehiculo);
     }
 
     public void agregarMercancia(Mercancia mercancia) {

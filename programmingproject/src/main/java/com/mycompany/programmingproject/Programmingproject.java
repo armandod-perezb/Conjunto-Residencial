@@ -26,7 +26,7 @@ public class Programmingproject {
             System.out.println(usuario);
         }
         int op = 0;
-        while (op != 3) {
+        while (op != 3) { // Update the condition to exclude the new option
             op = menuiniciosesion();
             switch (op) {
                 case 1: // Iniciar sesión
@@ -124,7 +124,7 @@ public class Programmingproject {
                             int idpropietario;
                             int indexpropietario;
                                 int adminOp = 0;
-                                while (adminOp != 5) {
+                                while (adminOp != 6) {
                                     adminOp = menuadministrador();
                                     switch (adminOp) {
                                         case 1:
@@ -231,14 +231,24 @@ public class Programmingproject {
                                                 switch (gestionarMercanciaOp) {
                                                     case 1:
                                                         // Ver mercancías registradas
-                                                        System.out.println("Ver mercancías registradas");
+                                                        gestionMercancia.mostrarMercancias();
                                                         break;
                                                     case 2:
                                                         // Registrar nueva mercancía
-                                                        System.out.println("Registrar nueva mercancía");
+                                                        int idPropietario = Utilidades.registrarinteger("Digite id de propietario: ");
+                                                        if(Utilidades.contieneUsuario(usuarios, idPropietario)){
+                                                            int indexPropietario = Utilidades.hallarIndexUsuario(usuarios, idPropietario);
+                                                            Propietario propietario = (Propietario) usuarios.get(indexPropietario);
+                                                            String descripcion = Utilidades.registrarstring("Digite la descripción de la mercancía: ");
+                                                            gestionMercancia.registrarLlegada(descripcion,propietario);
+                                                            System.out.println("Mercancía registrada con éxito");
+                                                        } else {
+                                                            System.out.println("El propietario no existe");
+                                                        }
                                                         break;
                                                     case 3:
                                                         // Salir
+                                                        System.out.println("Saliendo...");
                                                         break;
                                                     default:
                                                         System.out.println("Opción inválida");
@@ -247,6 +257,10 @@ public class Programmingproject {
                                             }
                                             break;
                                         case 5:
+                                            // Exportar datos
+                                            exportarDatos(usuarios);
+                                            break;
+                                        case 6:
                                             // Salir
                                             break;
                                         default:
@@ -305,6 +319,9 @@ public class Programmingproject {
                     break;
                 case 3: // Salir
                     break;
+                default:
+                    System.out.println("Opción inválida");
+                    break;
             }
         }
     }
@@ -319,6 +336,13 @@ public class Programmingproject {
                 """);
     }
 
+    // Método para exportar datos
+    static void exportarDatos(List<Usuario> usuarios) {
+        // Implementar la lógica para exportar datos
+        System.out.println("Exportando datos...");
+        // ...código para exportar datos...
+    }
+
     // Menú de administrador
     static int menuadministrador() {
         return Utilidades.registrarinteger("""
@@ -327,8 +351,8 @@ public class Programmingproject {
                 2. Gestionar Incidentes
                 3. Control de Vehículos
                 4. Gestionar Mercancía
-                5. Mostrar información
-                4. Salir
+                5. Exportar datos
+                6. Salir
                         """);
     }
 
