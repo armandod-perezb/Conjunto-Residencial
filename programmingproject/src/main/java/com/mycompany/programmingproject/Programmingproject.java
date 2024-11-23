@@ -48,7 +48,7 @@ public class Programmingproject {
                             case "propietario":
                             Propietario propietarioactual = (Propietario) iniciarSesion.getUsuarioActual();
                                 int propietarioOp = 0;
-                                while (propietarioOp != 5) {
+                                while (propietarioOp != 6) {
                                     propietarioOp = menupropietario();
                                     switch (propietarioOp) {
                                         case 1:
@@ -61,13 +61,17 @@ public class Programmingproject {
                                             break;
                                         case 3:
                                             // Autorizar vehículo
-                                            System.out.println("Autorizar vehículo");
+                                            propietarioactual.agregarVehiculo();
                                             break;
                                         case 4:
                                             // Visualizar mercancía
                                             propietarioactual.mostrarMercancias();
                                             break;
                                         case 5:
+                                            // Visualizar vehículos autorizados
+                                            propietarioactual.mostrarVehiculos();
+                                            break;
+                                        case 6:
                                             // Salir
                                             break;
                                         default:
@@ -79,7 +83,7 @@ public class Programmingproject {
                             case "vigilante":
                             Vigilante vigilanteactual = (Vigilante) iniciarSesion.getUsuarioActual();
                                 int vigilanteOp = 0;
-                                while (vigilanteOp != 4) {
+                                while (vigilanteOp != 5) {
                                     vigilanteOp = menuvigilante();
                                     switch (vigilanteOp) {
                                         case 1:
@@ -88,15 +92,26 @@ public class Programmingproject {
                                             break;
                                         case 2:
                                             // Registrar entrada de vehículo
-                                            System.out.println("Registrar entrada de vehículo");
+                                            vigilanteactual.registrarEntrada();
                                             break;
                                         case 3:
-                                            // Registrar llegada de mercancía
-                                            System.out.println("Registrar llegada de mercancía");
+                                            // Registrar salida de vehículo
+                                            vigilanteactual.registrarSalida();
                                             break;
-                                        case 4:
-                                            // Salir
-                                            
+                                        case 4: // Registrar llegada de mercancía
+                                            int idPropietario = Utilidades.registrarinteger("Digite id de propietario: ");
+                                            if(Utilidades.contieneUsuario(usuarios, idPropietario)){
+                                                int indexpropietario = Utilidades.hallarIndexUsuario(usuarios, idPropietario);
+                                                Propietario propietariodestinatario = (Propietario) usuarios.get(indexpropietario);
+                                                vigilanteactual.registrarLlegadaMercancia(propietariodestinatario);
+                                                System.out.println("Mercancía registrada con éxito");
+
+                                            }else{
+                                                System.out.println("El propietario no existe");
+                                            }
+                                            break;
+                                        case 5: // Salir
+                                            System.out.println("Saliendo...");
                                             break;
                                         default:
                                             System.out.println("Opción inválida");
@@ -106,6 +121,8 @@ public class Programmingproject {
                                 break;
                             case "administrador":
                             Administrador administradoractual = (Administrador) iniciarSesion.getUsuarioActual();
+                            int idpropietario;
+                            int indexpropietario;
                                 int adminOp = 0;
                                 while (adminOp != 5) {
                                     adminOp = menuadministrador();
@@ -118,14 +135,23 @@ public class Programmingproject {
                                                 switch (gestionPagosOp) {
                                                     case 1:
                                                         // Ver pagos pendientes
-                                                        System.out.println("Ver pagos pendientes");
+                                                        GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<>());
+                                                        pagos.mostrarPagosPendientes();
                                                         break;
                                                     case 2:
                                                         // Registrar pago
-                                                        System.out.println("Registrar pago");
+                                                        int idPropietario = Utilidades.registrarinteger("Digite id de propietario: ");
+                                                        if(Utilidades.contieneUsuario(usuarios, idPropietario)){
+                                                            int indexPropietario = Utilidades.hallarIndexUsuario(usuarios, idPropietario);
+                                                            Propietario propietario = (Propietario) usuarios.get(indexPropietario);
+                                                            administradoractual.GenerarPago(propietario);
+                                                            System.out.println("Pago registrado con éxito");
+                                                        } else {
+                                                            System.out.println("El propietario no existe");
+                                                        }
                                                         break;
-                                                    case 3:
-                                                        // Salir
+                                                    case 3: // Salir
+                                                        System.out.println("Saliendo...");
                                                         break;
                                                     default:
                                                         System.out.println("Opción inválida");
@@ -136,19 +162,31 @@ public class Programmingproject {
                                         case 2:
                                             // Gestionar Incidentes
                                             int gestionarIncidentesOp = 0;
+                                            GestionIncidentes incidentes = GestionIncidentes.ObtenerInstancia(new ArrayList<>());
                                             while (gestionarIncidentesOp != 3) {
                                                 gestionarIncidentesOp = menugestionarincidentes();
                                                 switch (gestionarIncidentesOp) {
                                                     case 1:
                                                         // Ver incidentes reportados
-                                                        System.out.println("Ver incidentes reportados");
+                                                        incidentes.MostrarIncidente();
                                                         break;
                                                     case 2:
                                                         // Registrar resolución de incidente
-                                                        System.out.println("Registrar resolución de incidente");
+                                                        int idIncidente = Utilidades.registrarinteger("Digite id de incidente: ");
+                                                        boolean existe = false;
+                                                        for (Incidente incidente : incidentes.getIncidentes()) {
+                                                            if (incidente.getId() == idIncidente) {
+                                                                existe = true;
+                                                                incidente.setEstado("Resuelto");
+                                                                System.out.println("Incidente resuelto con éxito");
+                                                            }
+                                                        }
+                                                        if(!existe){
+                                                            System.out.println("El incidente no existe");
+                                                        }
                                                         break;
-                                                    case 3:
-                                                        // Salir
+                                                    case 3: // Salir
+                                                        System.out.println("Saliendo...");
                                                         break;
                                                     default:
                                                         System.out.println("Opción inválida");
@@ -159,18 +197,23 @@ public class Programmingproject {
                                         case 3:
                                             // Control de Vehículos
                                             int controlVehiculosOp = 0;
-                                            while (controlVehiculosOp != 3) {
+                                            ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
+                                            while (controlVehiculosOp != 4) {
                                                 controlVehiculosOp = menucontrolvehiculos();
                                                 switch (controlVehiculosOp) {
                                                     case 1:
                                                         // Ver vehículos autorizados
-                                                        System.out.println("Ver vehículos autorizados");
+                                                        controlAcceso.verVehiculosAutorizados();
                                                         break;
                                                     case 2:
                                                         // Registrar entrada de vehículo
-                                                        System.out.println("Registrar entrada de vehículo");
+                                                        administradoractual.registrarEntrada();
                                                         break;
                                                     case 3:
+                                                        // Registrar salida de vehículo
+                                                        administradoractual.registrarSalida();
+                                                        break;
+                                                    case 4:
                                                         // Salir
                                                         break;
                                                     default:
@@ -182,6 +225,7 @@ public class Programmingproject {
                                         case 4:
                                             // Gestionar Mercancía
                                             int gestionarMercanciaOp = 0;
+                                            GestionMercancia gestionMercancia = GestionMercancia.ObtenerInstancia(new ArrayList<>());
                                             while (gestionarMercanciaOp != 3) {
                                                 gestionarMercanciaOp = menugestionarmercancia();
                                                 switch (gestionarMercanciaOp) {
@@ -296,7 +340,8 @@ public class Programmingproject {
                 2. Reportar incidente
                 3. Autorizar vehículo
                 4. Visualizar mercancía
-                5. Salir
+                5. Visualizar vehículos autorizados
+                6. Salir
                         """);
     }
 
@@ -306,8 +351,9 @@ public class Programmingproject {
                 Selecciona una opción
                 1. Registrar incidente
                 2. Registrar entrada de vehículo
-                3. Registrar llegada de  mercancía
-                4. Salir
+                3. Registrar salida de vehículo
+                4. Registrar llegada de  mercancía
+                5. Salir
                         """);
     }
 
@@ -317,8 +363,7 @@ public class Programmingproject {
                 Selecciona una opción
                 1. Ver pagos pendientes
                 2. Registrar pago
-                3. Generar reporte de pagos
-                4. Salir
+                3. Salir
                 """);
     }
 
@@ -328,8 +373,7 @@ public class Programmingproject {
                 Selecciona una opción
                 1. Ver incidentes reportados
                 2. Registrar resolución de incidente
-                3. Generar reporte de incidentes
-                4. Salir
+                3. Salir
                 """);
     }
 
@@ -339,7 +383,7 @@ public class Programmingproject {
                 Selecciona una opción
                 1. Ver vehículos autorizados
                 2. Registrar entrada de vehículo
-                3. Generar reporte de vehículos
+                3. Registrar salida de vehículo
                 4. Salir
                 """);
     }
@@ -350,8 +394,7 @@ public class Programmingproject {
                 Selecciona una opción
                 1. Ver mercancías registradas
                 2. Registrar nueva mercancía
-                3. Generar reporte de mercancías
-                4. Salir
+                3. Salir
                 """);
     }
 }

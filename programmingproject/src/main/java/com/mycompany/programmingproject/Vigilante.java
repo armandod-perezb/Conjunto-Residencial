@@ -56,6 +56,24 @@ public class Vigilante extends Usuario {
         }
     }
 
+    public void registrarEntrada(){
+        String placa = Utilidades.registrarstring("Digite la placa del vehiculo que desea registrar");
+        ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
+        controlAcceso.registrarEntrada(this, placa);
+    }
+
+    public void registrarSalida(){
+        String placa = Utilidades.registrarstring("Digite la placa del vehiculo que desea registrar salida"); 
+        ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
+        controlAcceso.registrarSalida(placa);
+    }
+
+    public void registrarLlegadaMercancia(Propietario proveedor) {
+        String descripcion = Utilidades.registrarstring("Digite la descripción de la mercancia que desea registrar");
+        GestionMercancia gestionMercancia = GestionMercancia.ObtenerInstancia(new ArrayList<>());
+        gestionMercancia.registrarLlegada(descripcion, proveedor);
+    }
+
     @Override
     public String toString() {
         return "Vigilante{" +

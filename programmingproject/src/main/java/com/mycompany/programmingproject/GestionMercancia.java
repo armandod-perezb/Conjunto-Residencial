@@ -31,10 +31,15 @@ public class GestionMercancia {
         return mercancia;
     }
 
-    public void obtenerMercanciasPendientes(Propietario propietario) {
-        for (Mercancia mercancia : mercancias) {
-            if(mercancia.equals(propietario) && !mercancia.isEntregada()){
-                System.out.println(mercancia);
+    public void mostrarMercancias() {
+        if(mercancias.isEmpty()){
+            System.out.println("No hay mercancias registradas");
+            return;
+        }else{
+            for (Mercancia mercancia : mercancias) {
+                System.out.println("----------------------------------");
+                mercancia.mostrarDatos();
+                System.out.println("----------------------------------");
             }
         }
     }

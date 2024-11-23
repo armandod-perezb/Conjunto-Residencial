@@ -40,13 +40,18 @@ public class GestionIncidentes {
         }
     }
     public void MostrarIncidente(){
-        for (Incidente incidente : incidentes) {
-            System.out.println("ID: "+incidente.getId());
-            System.out.println("Descripción: "+incidente.getDescripcion());
-            System.out.println("Fecha y hora: "+incidente.getFechaHora());
-            System.out.println("Reportado por: "+incidente.getReportadoPor().getNombre());
-            System.out.println("Ubicación: "+incidente.getUbicacion());
-            System.out.println("Estado: "+incidente.getEstado());
+        if(incidentes.isEmpty()){
+            System.out.println("No hay incidentes registrados");
+            return;
+        }else{
+            for (Incidente incidente : incidentes) {
+                System.out.println("ID: "+incidente.getId());
+                System.out.println("Descripción: "+incidente.getDescripcion());
+                System.out.println("Fecha y hora: "+incidente.getFechaHora());
+                System.out.println("Reportado por: "+incidente.getReportadoPor().getNombre());
+                System.out.println("Ubicación: "+incidente.getUbicacion());
+                System.out.println("Estado: "+incidente.getEstado());
+            }
         }
     }
 }

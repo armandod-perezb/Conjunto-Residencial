@@ -45,13 +45,10 @@ public class Vehiculo {
         this.autorizado = autorizado;
     }
 
-    @Override
-    public String toString() {
-        return "Vehiculo{" +
-                "placa='" + placa + '\'' +
-                ", tipo='" + tipo + '\'' +
-                ", propietario=" + propietario.getNombre() + // Avoid calling toString on Propietario
-                ", autorizado=" + autorizado +
-                '}';
+    public void mostrarDatos() {
+        System.out.println("Placa: " + placa);
+        System.out.println("Tipo: " + tipo);
+        System.out.println("Propietario: " + propietario.getNombre()); 
+        System.out.println("Autorizado: " + (autorizado ? "Sí" : "No"));
     }
 }

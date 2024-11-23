@@ -14,7 +14,7 @@ public class Mercancia {
         this.descripcion = descripcion;
         this.destinatario = destinatario;
         this.fechaHoraLlegada = LocalDateTime.now();
-        this.entregada = false;
+        this.entregada = true;
     }
 
     public int getId() {
@@ -57,17 +57,11 @@ public class Mercancia {
         this.entregada = entregada;
     }
 
-    @Override
-    public String toString() {
-        return "Mercancia{" +
-                "id=" + id +
-                ", descripcion='" + descripcion + '\'' +
-                ", destinatario=" + destinatario.getNombre() +
-                ", fechaHoraLlegada=" + fechaHoraLlegada +
-                ", entregada=" + entregada +
-                '}';
-    }
-    
-    
-    
+    public void mostrarDatos() {
+        System.out.println("ID: " + id);
+        System.out.println("Descripción: " + descripcion);
+        System.out.println("Destinatario: " + destinatario.getNombre());
+        System.out.println("Fecha y Hora de Llegada: " + fechaHoraLlegada);
+        System.out.println("Entregada: " + (entregada ? "Sí" : "No"));
+    }    
 }

@@ -40,4 +40,35 @@ public class GestionPagos {
         }
         return pagosPropietario;
     }
+
+    public boolean PropietarioAlDia(Propietario propietario) {
+        for (Pago pago : pagos) {
+            if(pago.getPropietario().equals(propietario) && pago.getEstado().equals("pendiente")){
+                return false;
+            }
+        }
+    return true;
+    }
+
+    public void mostrarPagosPendientes() {
+        List<Pago> pagosPendientes = new ArrayList<>();
+        if(!pagos.isEmpty()){
+            for (Pago pago : pagos) {
+                if (pago.getEstado().equals("pendiente")) {
+                    pagosPendientes.add(pago);
+                }
+            }
+            if(pagosPendientes.isEmpty()){
+                System.out.println("No hay pagos pendientes");
+            }else{
+                for (Pago pago2 : pagosPendientes) {
+                    System.out.println("--------------------------------");
+                    pago2.mostrarDatos();
+                    System.out.println("--------------------------------");
+                }
+            }
+        }else{
+            System.out.println("No hay pagos registrados por el momento");
+        }
+    }
 }

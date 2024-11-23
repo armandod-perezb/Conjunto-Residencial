@@ -53,25 +53,31 @@ public class Propietario extends Usuario{
         this.mercanciasRegistradas = mercanciasRegistradas;
     }
     
-    public void agregarVehiculo(Vehiculo vehiculo) {
+    public void agregarVehiculo() {
+        String placa = Utilidades.registrarstring("Digite la placa del vehiculo: ");
+        String tipo = Utilidades.registrarstring("Digite el tipo de vehiculo: ");
+        Vehiculo vehiculo = new Vehiculo(placa, tipo, this, true);
+        ControlAcceso control = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
         if (vehiculosRegistrados == null) {
             vehiculosRegistrados = new ArrayList<>();
         }
         vehiculosRegistrados.add(vehiculo);
+        control.agregarVehiculoAutorizado(vehiculo);
     }
 
     public void agregarMercancia(Mercancia mercancia) {
+        GestionMercancia gestionMercancias = GestionMercancia.ObtenerInstancia(new ArrayList<>());
         if (mercanciasRegistradas == null) {
             mercanciasRegistradas = new ArrayList<>();
         }
         mercanciasRegistradas.add(mercancia);
+        gestionMercancias.registrarLlegada(mercancia.getDescripcion(), this);
     }
     public void reporteIncidente(){
         GestionIncidentes incidentes = GestionIncidentes.ObtenerInstancia(new ArrayList<>());
         String descripcion = Utilidades.registrarstring("Digite la descripción del incidente: ");
         String ubicacion = Utilidades.registrarstring("Digite la ubicación del incidente: ");
         incidentes.reportarIncidente(descripcion, this, ubicacion);
-        incidentes.MostrarIncidente();
     }
 
     public void mostrarVehiculos(){
@@ -89,7 +95,9 @@ public class Propietario extends Usuario{
             System.out.println("No hay mercancias registradas");
         }else{
             for (Mercancia mercancia : mercanciasRegistradas) {
-                System.out.println(mercancia);
+                System.out.println("--------------------------------");
+                mercancia.mostrarDatos();
+                System.out.println("--------------------------------");
             }
         }
     }
@@ -98,7 +106,6 @@ public class Propietario extends Usuario{
         if(Propietario.this.isAlDia()){
             System.out.println("El propietario esta al dia. No hay pagos pendientes");
             return;
-
         }
         GestionPagos pagos = GestionPagos.ObtenerInstancia(new ArrayList<>());
         for (Pago pago : pagos.obtenerPagosPropietario(this)) {
@@ -116,6 +123,7 @@ public class Propietario extends Usuario{
                
             }
         }
+        setAlDia(pagos.PropietarioAlDia(this));
     }
 
     @Override

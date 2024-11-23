@@ -42,15 +42,38 @@ public class ControlAcceso {
         }
     }
 
-    public void registrarEntrada() {
-        for (Vehiculo vehiculo2 : VehiculosAutorizados) {
-            System.out.println("Placa: "+vehiculo2.getPlaca()+" propietario: "+ vehiculo2.getPropietario().getNombre());
+    public void registrarEntrada(Usuario usuario, String placa) {
+        for (Vehiculo vehiculo : VehiculosAutorizados) {
+            if(vehiculo.getPlaca().equals(placa)){
+                if(vehiculo.isAutorizado()){
+                    RegistroAcceso registro = new RegistroAcceso(registrosAcceso.size()+1, vehiculo, usuario);
+                    registrosAcceso.add(registro);
+                    System.out.println("Entrada registrada para el vehículo con placa: " + placa);
+                    return;
+                }
+            }
+            
         }
-        System.out.println("Digite la placa del vehiculo que desea registrar");
-        String placa = Utilidades.registrarstring("Digite la placa del vehiculo");
-    }
-
-    public void registrarSalida(int id) {
+        System.out.println("El vehículo con placa: " + placa + " no está autorizado para ingresar");
         
     }
+
+    public void registrarSalida(String placa) {
+        for (RegistroAcceso registro : registrosAcceso) {
+            if(registro.getVehiculo().getPlaca().equals(placa) && registro.getFechaHoraSalida() == null){  
+                registro.registrarSalida();
+                System.out.println("Salida registrada para el vehículo con placa: " + placa);
+                return;
+            }
+        }
+    }
+
+    public void verVehiculosAutorizados() {
+        for (Vehiculo vehiculo : VehiculosAutorizados) {
+            System.out.println("----------------------------------------");
+            vehiculo.mostrarDatos();
+            System.out.println("----------------------------------------");
+        }
+    }
+    
 }

@@ -26,6 +26,7 @@ public class Administrador extends Usuario {
     public void GenerarPago(Propietario propietario) {
         double monto = Utilidades.registrardouble("Ingrese el monto del pago");
         String concepto = Utilidades.registrarstring("Ingrese el concepto del pago");
+        propietario.setAlDia(false);
         this.pagos.registrarPago(propietario, "no definido", monto, concepto);
     }
 
@@ -34,5 +35,17 @@ public class Administrador extends Usuario {
         for (Pago pago : pagosPropietario) {
             System.out.println(pago);
         }
+    }
+
+    public void registrarEntrada(){
+        String placa = Utilidades.registrarstring("Digite la placa del vehiculo que desea registrar");
+        ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
+        controlAcceso.registrarEntrada(this, placa);
+    }
+
+    public void registrarSalida(){
+        String placa = Utilidades.registrarstring("Digite la placa del vehiculo que desea registrar salida"); 
+        ControlAcceso controlAcceso = ControlAcceso.ObtenerInstancia(new ArrayList<>(), new ArrayList<>());
+        controlAcceso.registrarSalida(placa);
     }
 }

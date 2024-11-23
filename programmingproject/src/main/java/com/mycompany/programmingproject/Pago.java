@@ -77,5 +77,13 @@ public class Pago {
         this.estado = estado;
     }
     
-    
+    public void mostrarDatos() {
+        System.out.println("ID: " + id);
+        System.out.println("Propietario: " + propietario.getNombre()); 
+        System.out.println("Monto: " + monto);
+        System.out.println("Medio de Pago: " + mediodepago);
+        System.out.println("Fecha: " + fecha);
+        System.out.println("Concepto: " + concepto);
+        System.out.println("Estado: " + estado);
+    }
 }
