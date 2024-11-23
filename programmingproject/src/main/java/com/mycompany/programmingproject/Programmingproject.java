@@ -504,10 +504,13 @@ public class Programmingproject {
             switch (csvOp) {
                 case 1:
                     // Modificar línea
-                    String filePath = Utilidades.registrarstring("Digite el nombre del archivo CSV: ");
+                    String filePath = "usuarios.csv";
+                    archivoHandler archivoHandler = archivoHandler.getInstancia("");
+                    List<String> archivo = archivoHandler.leerArchivo(filePath);
                     int lineNumber = Utilidades.registrarinteger("Digite el número de línea a modificar: ");
+                
                     String newLine = Utilidades.registrarstring("Digite el nuevo contenido de la línea: ");
-                    archivoHandler.getInstancia("").modificarLinea(filePath, lineNumber, newLine);
+                    archivoHandler.modificarLinea(filePath, lineNumber, newLine);
                     break;
                 case 2:
                     // Eliminar línea
